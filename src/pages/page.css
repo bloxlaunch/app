@@ -1,0 +1,9 @@
+.page {
+    display: flex;
+    margin: 2rem;
+}
+
+.page h1 {
+    font-size: 48px;
+    user-select: none;
+}

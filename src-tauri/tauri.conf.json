@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "Bloxlaunch [EARLY ALPHA]",
-        "width": 800,
-        "height": 600,
+        "title": "Bloxlaunch",
+        "width": 1240,
+        "height": 790,
         "decorations": true
       }
     ],

@@ -24,8 +24,10 @@
     border: 0;
     height: auto;
     /*padding-top: 10px;*/
-    padding-bottom: 10px;
+    padding-bottom: 20px;
+    cursor: pointer;
 }
+
 
 .menuButton span {
     font-size: 14px;

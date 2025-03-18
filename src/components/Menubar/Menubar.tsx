@@ -1,20 +1,21 @@
-import {useEffect, useState} from "react";
-
+import { useNavigate } from "react-router-dom";
 import "./Menubar.css";
-import { Wrench } from "@phosphor-icons/react";
+import { Wrench, House } from "@phosphor-icons/react";
 
 
 export default function Menubar() {
+	const navigate = useNavigate(); // ✅ Move inside the function component
+
 	return (
 		<div className="menuBar">
-			<button className={"menuButton"}>
-				{/*<SlidersHorizontal color="#d2d2d2" size={52} />*/}
-				<Wrench size={48} weight="fill" />
-				{/*<Settings color="#d2d2d2" size={42}/>*/}
+			<button className="menuButton" onClick={() => navigate("/")}>
+				<House size={48} weight="fill" />
+				<span>Home</span>
+			</button>
+			<button className="menuButton" onClick={() => navigate("/settings")}>
+				<Wrench size={48} weight="fill"/>
 				<span>Settings</span>
 			</button>
 		</div>
 	);
 }
-
-
