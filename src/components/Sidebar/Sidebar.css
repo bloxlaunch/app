@@ -119,7 +119,7 @@
 }
 
 .titlebar {
-    height: 200px;
+    height: 50px;
     width: 100%;
     /*background: rgba(255, 255, 255, 0.17);*/
     user-select: none;
@@ -128,6 +128,7 @@
     position: fixed;
     top: 0;
     right: 0;
+    z-index: 99999;
 
 }
 
@@ -139,7 +140,6 @@
     margin-right: .4rem;
     border-radius: 6px;
     height: 30px;
-
 }
 
 .titlebar-button {
@@ -150,6 +150,7 @@
     height: 30px;
     user-select: none;
     -webkit-user-select: none;
+    background: rgba(255, 255, 255, 0.86);
 }
 .titlebar-button:hover {
     background: rgba(255, 255, 255, 0.45);
