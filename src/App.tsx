@@ -59,31 +59,35 @@ export default function App() {
           />
         </div>
       </div>
+      <div className={"inner-app"}>
+        {/* Sidebar */}
+        <Menubar/>
+        <Sidebar />
 
-      {/* Sidebar */}
-      <Menubar/>
-      <Sidebar />
+        {/* Main content */}
+        <div className="content">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="pageWrapper"
+            >
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Home />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/game/:id" element={<Game />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-      {/* Main content */}
-      <div className="content">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="pageWrapper"
-          >
-            <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<Home />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/game/:id" element={<Game />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
       </div>
+
+
     </div>
   );
 }

@@ -31,7 +31,13 @@ body {
 
 .app {
   display: flex;
-  /*margin-top: 50px; !* to avoid being covered by the titlebar *!*/
+  flex-direction: column;
+  height: 100vh;
+}
+
+.inner-app {
+  display: flex;
+  flex: 1;
 }
 
 .content {
