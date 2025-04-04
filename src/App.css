@@ -33,11 +33,15 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 }
 
+/* Push inner-app below the titlebar */
 .inner-app {
   display: flex;
-  flex: 1;
+  margin-top: 50px;
+  height: calc(100vh - 50px); /* fill remaining space */
+  overflow: hidden; /* prevent second scrollbar */
 }
 
 .content {
@@ -121,36 +125,62 @@ body {
 
 .titlebar {
   height: 50px;
-  /*background: rgb(26, 26, 31);*/
+  width: 100%;
+  /*background: rgba(255, 255, 255, 0.17);*/
   user-select: none;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   z-index: 99999;
+
 }
+
+.appName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  padding-left: 15px;
+}
+
+.appName span {
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.appName img {
+  height: 50%;
+
+}
+
+
+.titlebar-buttons {
+  /*background: rgba(255, 255, 255, 0.17);*/
+  /*margin-top: .4rem;*/
+  /*margin-right: .4rem;*/
+  /*border-radius: 6px;*/
+  /*height: 30px;*/
+}
+
 .titlebar-button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
+  width: 40px;
   height: 30px;
   user-select: none;
   -webkit-user-select: none;
-  z-index: 99999;
-  /*background: rgba(255, 255, 255, 0);*/
-  background-color: red;
+  /*background: rgba(255, 255, 255, 0.86);*/
 }
 
 .titlebar-button img {
-  /*filter: invert();*/
+  filter: invert();
 }
 
-
 .titlebar-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  z-index: 99999;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 6px;
 
 }

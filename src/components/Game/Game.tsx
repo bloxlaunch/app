@@ -83,8 +83,8 @@ export default function Game() {
 				<div className="bannerContainer">
 					<img src={gameData[id]?.banner || "https://via.placeholder.com/1320x440"} alt="Game Banner"
 					     className="gameBanner" loading="lazy"/>
-					<img src={gameData[id]?.banner || "https://via.placeholder.com/1320x440"} alt="Game Banner"
-					     className="gameBannerBack" loading="lazy"/>
+					{/*<img src={gameData[id]?.banner || "https://via.placeholder.com/1320x440"} alt="Game Banner"*/}
+					{/*     className="gameBannerBack" loading="lazy"/>*/}
 				</div>
 				<img src={gameData[id]?.icon || "https://via.placeholder.com/512"} alt="Game Icon" className="gameIcon"
 				     loading="lazy"/>

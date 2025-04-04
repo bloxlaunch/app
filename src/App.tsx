@@ -40,39 +40,46 @@ export default function App() {
 
       {/* Custom Titlebar */}
       <div data-tauri-drag-region className="titlebar">
-        <div className="titlebar-button" id="titlebar-minimize">
-          <img
-            src="https://api.iconify.design/mdi:window-minimize.svg"
-            alt="minimize"
-          />
+        <div className="appName">
+          <img src="/favicon.png" alt=""/>
+          <span>Bloxlaunch</span>
         </div>
-        <div className="titlebar-button" id="titlebar-maximize">
-          <img
-            src="https://api.iconify.design/mdi:window-maximize.svg"
-            alt="maximize"
-          />
+        <div className="titlebar-buttons">
+          <div className="titlebar-button" id="titlebar-minimize">
+            <img
+              src="https://api.iconify.design/mdi:window-minimize.svg"
+              alt="minimize"
+            />
+          </div>
+          <div className="titlebar-button" id="titlebar-maximize">
+            <img
+              src="https://api.iconify.design/mdi:window-maximize.svg"
+              alt="maximize"
+            />
+          </div>
+          <div className="titlebar-button" id="titlebar-close">
+            <img
+              src="https://api.iconify.design/mdi:close.svg"
+              alt="close"
+            />
+          </div>
         </div>
-        <div className="titlebar-button" id="titlebar-close">
-          <img
-            src="https://api.iconify.design/mdi:close.svg"
-            alt="close"
-          />
-        </div>
+
       </div>
       <div className={"inner-app"}>
         {/* Sidebar */}
-        <Menubar/>
-        <Sidebar />
+        {/*<Menubar/>*/}
+        <Sidebar/>
 
         {/* Main content */}
         <div className="content">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              initial={{opacity: 0, y: 30}}
+              animate={{opacity: 1, y: 0}}
+              exit={{opacity: 0, y: -30}}
+              transition={{duration: 0.3, ease: "easeOut"}}
               className="pageWrapper"
             >
               <Routes location={location} key={location.pathname}>
