@@ -6,6 +6,7 @@ import Game from "../src/components/Game/Game.tsx";
 import Home from "../src/pages/Home.tsx";
 import Settings from "../src/pages/Settings.tsx";
 import { AnimatePresence, motion } from "framer-motion";
+import Profile from "./pages/Profile.tsx";
 
 export default function App() {
   const location = useLocation();
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/game/:id" element={<Game />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </motion.div>
         </AnimatePresence>

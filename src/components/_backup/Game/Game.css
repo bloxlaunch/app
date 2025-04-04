@@ -1,0 +1,139 @@
+.bannerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centers the entire banner */
+    align-items: center;
+    position: relative; /* Allows absolute positioning of gameBannerBack */
+}
+
+.bannerWrapper {
+    position: relative; /* Makes gameBannerBack position relative to this */
+    display: flex;
+    flex-direction: column; /* Ensures vertical stacking */
+    align-items: center; /* Centers horizontally */
+}
+
+.gameBanner {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    background: url("../../assets/bannerPlaceholder.svg") center/cover no-repeat;
+    aspect-ratio: 3;
+    object-fit: cover;
+    position: relative; /* Ensures it's above gameBannerBack */
+    z-index: 1;
+    overflow: hidden; /* ✅ Hides blur overflow */
+    /* Default state: Hidden gradient */
+    mask-image: linear-gradient(to right, transparent -50%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, transparent 150%);
+    transition: opacity 0.5s ease-in-out; /* ✅ Smooth transition */
+
+
+}
+
+.gameBannerBack {
+    position: absolute; /* Places it exactly under gameBanner */
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    background: url("../../assets/bannerPlaceholder.svg") center/cover no-repeat;
+    aspect-ratio: 3;
+    object-fit: stretch;
+    z-index: 0; /* Sends it to the background */
+    filter: blur(40px) brightness(35%);
+    top: 0; /* Ensures alignment */
+    left: 0;
+    overflow: hidden; /* ✅ Hides blur overflow */
+}
+
+.bannerIcon {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Align items in center */
+}
+
+/*.gameIcon {*/
+/*    position: absolute;*/
+/*    bottom: -40px; !* Moves the icon slightly lower *!*/
+/*    left: 50%;*/
+/*    transform: translateX(-50%); !* Centers horizontally *!*/
+/*    aspect-ratio: 1;*/
+/*    width: 25%; !* Adjust size as needed *!*/
+/*    height: auto;*/
+/*    border-radius: 25px;*/
+/*    z-index: 10;*/
+/*    padding: 8px; !* Optional: Small padding to avoid blending *!*/
+/*    box-shadow: 0px 4px 10px rgba(0, 0, 0, .4); !* Optional: Shadow for better visibility *!*/
+/*    backdrop-filter: blur(10px);*/
+/*}*/
+
+.gameIcon {
+    position: absolute;
+    bottom: -40px; /* Moves the icon slightly lower */
+    left: 50%;
+    transform: translateX(-50%); /* Centers horizontally */
+    aspect-ratio: 1;
+    width: 25%; /* Adjust size as needed */
+    height: auto;
+    border-radius: 25px;
+    z-index: 10;
+    padding: 8px; /* Optional: Small padding to avoid blending */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .4); /* Optional: Shadow for better visibility */
+    backdrop-filter: blur(10px);
+}
+
+.gameBackground {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(100px) brightness(10%);
+    z-index: -1;
+}
+
+
+
+.bottomGame {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(60, 60, 73, 0); /* Slight transparency */
+    border-radius: 8px;
+    height: 1000px;
+    z-index: 50;
+    padding: 2rem;
+    margin-top: 10px;
+}
+
+@media (min-width: 1640px) {
+.gameIcon {
+    width: 320px;
+}
+}
+
+
+@media (min-width: 1800px) {
+    .gameBanner {
+        height: 485px;
+        width: 1620px;
+        transition: opacity 0.5s ease-in-out; /* ✅ Smooth transition */
+        mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, transparent 100%);
+    }
+
+    .gameBannerBack {
+        height: 485px;
+    }
+}
+
+@media (max-width: 1209px) {
+    .gameBanner {
+        height: 300px;
+        width: 1620px;
+    }
+
+    .gameIcon {
+        width: 222px;
+    }
+}
+
