@@ -31,6 +31,7 @@ body {
 
 .app {
   display: flex;
+  /*margin-top: 50px; !* to avoid being covered by the titlebar *!*/
 }
 
 .content {
@@ -38,6 +39,7 @@ body {
   width: 100%;
   overflow-y: auto;
   padding: 10px 10px 10px 0;
+
 }
 
 
@@ -111,3 +113,38 @@ body {
   border-radius: 15px;
 }
 
+.titlebar {
+  height: 50px;
+  /*background: rgb(26, 26, 31);*/
+  user-select: none;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+}
+.titlebar-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 99999;
+  /*background: rgba(255, 255, 255, 0);*/
+  background-color: red;
+}
+
+.titlebar-button img {
+  /*filter: invert();*/
+}
+
+
+.titlebar-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 99999;
+
+}

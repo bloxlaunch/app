@@ -1,0 +1,40 @@
+.titlebar {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 40px;
+    user-select: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-inline: 2px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.titlebar-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    fill: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    margin-inline: 3px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.titlebar-button:last-child {
+    margin-right: 6px;
+}
+
+.titlebar-button:hover {
+    background: #303030;
+}
+
+#titlebar-close:hover,
+.titlebar-button:last-child:hover {
+    background-color: #e06c75;
+}

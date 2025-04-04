@@ -19,7 +19,6 @@
     user-select: none;
     -webkit-user-select: none;
     z-index: 99999;
-
 }
 .titlebar-button:hover {
     background: #5bbec3;
