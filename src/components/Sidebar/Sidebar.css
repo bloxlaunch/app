@@ -1,7 +1,7 @@
 .sideBar {
     display: flex;
     flex-direction: column;
-    background-color: rgba(60, 60, 73, 0.2); /* Slight transparency */
+    background-color: rgba(60, 60, 73, 0.2);
     width: 384px;
     min-width: 80px;
     max-width: 600px;
@@ -16,27 +16,20 @@
     margin: 0 10px 10px 10px;
 }
 
-.localSearch {
-    position: sticky;
-    top: 0;
-    height: 50px;
-    flex-shrink: 0;
-    /*background: rgba(60, 60, 73, 0.8); !* Slight transparency *!*/
-    /*backdrop-filter: blur(10px); !* Glassmorphism effect *!*/
-    z-index: 0;
-    display: flex;
-    align-items: center;
-    /*padding: 10px;*/
-    justify-content: center;
-}
+/*.localSearch {*/
+/*    position: sticky;*/
+/*    top: 0;*/
+/*    height: 50px;*/
+/*    flex-shrink: 0;*/
+/*    !*background: rgba(60, 60, 73, 0.8);
+/*    !*backdrop-filter: blur(10px);
+/*    z-index: 0;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    !*padding: 10px;*!*/
+/*    justify-content: center;*/
+/*}*/
 
-/* Game Grid - Takes up Remaining Space */
-.gameGrid {
-    flex-grow: 1;
-    overflow-y: auto;
-    position: relative;
-    z-index: 1; /* Ensure it's behind addGame */
-}
 
 .resizer {
     width: 8px; /* Width of the draggable resizer */
@@ -48,22 +41,6 @@
     top: 0;
 }
 
-
-.sideBar h2 {
-    position: sticky;
-    top: 0;
-    background-color: #3c3c49; /* Match sidebar background */
-    z-index: 10; /* Ensures it stays above the scrolling content */
-    padding: 10px;
-
-}
-
-/*.gameGrid {*/
-/*  flex-grow: 1; !* Allows it to take remaining space *!*/
-/*  overflow-y: auto; !* Enables scrolling *!*/
-/*  max-height: calc(100vh - 100px); !* Adjust this based on header/footer height *!*/
-/*}*/
-
 .gameContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -72,14 +49,12 @@
     overflow: visible; /* Ensure items are not clipped */
 }
 
-
 .gameGrid {
     flex-grow: 1;
     overflow-y: auto;
     position: relative;
     z-index: 2; /* Higher than AddGame */
 }
-
 
 .search-container {
     position: relative;
@@ -117,32 +92,6 @@
     width: 24px;
     height: 24px;
     display: block;
-}
-
-
-.addGame {
-    display: flex;
-    gap: 15px;
-    width: 100%;
-    margin: 5px;
-    border-radius: 5px;
-
-}
-
-.addGame button {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    flex-direction: row;
-    border: none;
-    background-color: rgba(255, 255, 255, 0);
-    cursor: pointer;
-    align-items: center;
-    gap: 15px;
-}
-
-.addGame img {
-    filter: brightness(60%);
 }
 
 .modal {

@@ -9,3 +9,7 @@
     font-size: 48px;
     user-select: none;
 }
+
+.page .logo {
+    width: 700px;
+}

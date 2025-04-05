@@ -1,7 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
-import Menubar from "./components/Menubar/Menubar.tsx";
 import Game from "./components/Game/Game.tsx";
 import Home from "./pages/Home.tsx";
 import About from "./pages/About.tsx";
@@ -11,7 +10,6 @@ import { useEffect } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 
 import { useNavigate } from "react-router-dom";
-
 
 export default function App() {
   const location = useLocation();
@@ -40,14 +38,12 @@ export default function App() {
 
   const navigate = useNavigate();
 
-
   return (
     <div className="app">
-
       {/* Custom Titlebar */}
       <div data-tauri-drag-region className="titlebar">
         <div className="appName" onClick={() => navigate("/about")}>
-          <img src="/favicon.png" alt=""/>
+          <img src="/favicon.png" alt="" />
           <span>Bloxlaunch</span>
         </div>
         <div className="titlebar-buttons">
@@ -64,28 +60,24 @@ export default function App() {
             />
           </div>
           <div className="titlebar-button" id="titlebar-close">
-            <img
-              src="https://api.iconify.design/mdi:close.svg"
-              alt="close"
-            />
+            <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
           </div>
         </div>
-
       </div>
       <div className={"inner-app"}>
         {/* Sidebar */}
         {/*<Menubar/>*/}
-        <Sidebar/>
+        <Sidebar />
 
         {/* Main content */}
         <div className="content">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
-              initial={{opacity: 0, y: 30}}
-              animate={{opacity: 1, y: 0}}
-              exit={{opacity: 0, y: -30}}
-              transition={{duration: 0.3, ease: "easeOut"}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="pageWrapper"
             >
               <Routes location={location} key={location.pathname}>
@@ -97,10 +89,7 @@ export default function App() {
             </motion.div>
           </AnimatePresence>
         </div>
-
       </div>
-
-
     </div>
   );
 }
