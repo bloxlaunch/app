@@ -96,14 +96,13 @@ export default function GameGrid() {
 				</div>
 			))}
 
-			{/* Add Game Button */}
 			<div className="gameButton" onClick={() => setShowModal(true)} role="button">
 				<img src="/addGame.svg" alt="Add a game" loading="lazy"/>
 			</div>
 
-			<div>
-				<button onClick={clearGames}>Clear All Games</button>
-			</div>
+			{/*<div>*/}
+			{/*	<button onClick={clearGames}>Clear All Games</button>*/}
+			{/*</div>*/}
 
 			{/* Modal for Adding a Game */}
 			{showModal && (

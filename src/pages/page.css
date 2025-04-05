@@ -1,6 +1,8 @@
 .page {
     display: flex;
-    margin: 2rem;
+    margin: .5rem;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .page h1 {

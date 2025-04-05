@@ -10,15 +10,15 @@ import "./Sidebar.css";
 export default function Sidebar() {
 	return (
 		<div className="sideBar">
-			<div className="localSearch">
-				<LocalSearch/>
-			</div>
+			{/*<div className="localSearch">*/}
+			{/*	<LocalSearch/>*/}
+			{/*</div>*/}
 			<div className="gameGrid">
 				<GameGrid/>
 			</div>
-			{/*<div className="localSearch">*/}
-			{/*	<AddGame/>*/}
-			{/*</div>*/}
+			<div className="localSearch">
+				<AddGame/>
+			</div>
 		</div>
 	);
 }

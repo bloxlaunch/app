@@ -81,6 +81,7 @@
     padding: 8px; /* Optional: Small padding to avoid blending */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, .4); /* Optional: Shadow for better visibility */
     backdrop-filter: blur(10px);
+    display: none;
 }
 
 .gameBackground {

@@ -2,7 +2,7 @@ import "./Sidebar.css";
 
 export default function AddGame() {
 	return (
-		<div className="addGame">
+		<div className="addGame"  onClick={() => setShowModal(true)} role="button">
 			<button>
 							<span>
 				<img src="/addGameSmaller.svg" alt=""/>

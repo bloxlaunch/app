@@ -4,11 +4,14 @@ import Sidebar from "./components/Sidebar/Sidebar.tsx";
 import Menubar from "./components/Menubar/Menubar.tsx";
 import Game from "./components/Game/Game.tsx";
 import Home from "./pages/Home.tsx";
-import Settings from "./pages/Settings.tsx";
+import About from "./pages/About.tsx";
 import Profile from "./pages/Profile.tsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+
+import { useNavigate } from "react-router-dom";
+
 
 export default function App() {
   const location = useLocation();
@@ -35,12 +38,15 @@ export default function App() {
     };
   }, []);
 
+  const navigate = useNavigate();
+
+
   return (
     <div className="app">
 
       {/* Custom Titlebar */}
       <div data-tauri-drag-region className="titlebar">
-        <div className="appName">
+        <div className="appName" onClick={() => navigate("/about")}>
           <img src="/favicon.png" alt=""/>
           <span>Bloxlaunch</span>
         </div>
@@ -84,7 +90,7 @@ export default function App() {
             >
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />
-                <Route path="/settings" element={<Settings />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/game/:id" element={<Game />} />
                 <Route path="/profile" element={<Profile />} />
               </Routes>
