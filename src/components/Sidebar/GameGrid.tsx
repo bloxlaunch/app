@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AddGame from "./AddGame.tsx"; // moved from Sidebar to here
 import "./Sidebar.css";
 
 export default function GameGrid() {
-  const clearGames = () => {
-    localStorage.removeItem("games"); // Remove games from storage
-    localStorage.removeItem("gameImages"); // Remove cached images
-    setGames([]); // Reset state
-    setGameImages({}); // Clear images
-  };
-
   const navigate = useNavigate();
   const [games, setGames] = useState(() => {
-    // Load games from localStorage or use an empty array
     return JSON.parse(localStorage.getItem("games")) || [];
   });
 
@@ -20,10 +13,7 @@ export default function GameGrid() {
     return JSON.parse(localStorage.getItem("gameImages")) || {};
   });
 
-  const [showModal, setShowModal] = useState(false);
-  const [newGameId, setNewGameId] = useState("");
-
-  // Fetch game icons when the component loads or when games change
+  // Fetch icons
   useEffect(() => {
     if (games.length === 0) return;
 
@@ -62,21 +52,15 @@ export default function GameGrid() {
     fetchGameIcons();
   }, [games]);
 
-  // Function to add a new game
-  const addGame = () => {
-    if (!newGameId) return alert("Please enter a game ID");
-
-    // Add the new game and update state
-    const updatedGames = [...games, { id: newGameId }];
+  // Handler to pass to AddGame
+  const handleAddGame = (gameId) => {
+    const updatedGames = [...games, { id: gameId }];
     setGames(updatedGames);
-    localStorage.setItem("games", JSON.stringify(updatedGames)); // Persist in localStorage
-
-    setNewGameId(""); // Clear input field
-    setShowModal(false); // Close modal
+    localStorage.setItem("games", JSON.stringify(updatedGames));
   };
 
   return (
-    <div className="gameContainer">
+    <div className="gameContainer no-scrollbar grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 overflow-visible">
       {games.map((game, index) => (
         <div
           key={index}
@@ -95,35 +79,7 @@ export default function GameGrid() {
           />
         </div>
       ))}
-
-      <div
-        className="gameButton"
-        onClick={() => setShowModal(true)}
-        role="button"
-      >
-        <img src="/addGame.svg" alt="Add a game" loading="lazy" />
-      </div>
-
-      {/*<div>*/}
-      {/*	<button onClick={clearGames}>Clear All Games</button>*/}
-      {/*</div>*/}
-
-      {/* Modal for Adding a Game */}
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Add New Game</h3>
-            <input
-              type="text"
-              value={newGameId}
-              onChange={(e) => setNewGameId(e.target.value)}
-              placeholder="Enter Game ID"
-            />
-            <button onClick={addGame}>Add</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-          </div>
-        </div>
-      )}
+      <AddGame onAddGame={handleAddGame} />
     </div>
   );
 }

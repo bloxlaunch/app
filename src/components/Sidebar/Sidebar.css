@@ -42,12 +42,9 @@
 }
 
 .gameContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 8px;
-    padding: 8px;
-    overflow: visible; /* Ensure items are not clipped */
+    padding: 0 8px 8px 8px;
 }
+
 
 .gameGrid {
     flex-grow: 1;

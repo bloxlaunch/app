@@ -41,10 +41,16 @@ export default function App() {
   return (
     <div className="app">
       {/* Custom Titlebar */}
-      <div data-tauri-drag-region className="titlebar">
-        <div className="appName" onClick={() => navigate("/about")}>
-          <img src="/favicon.png" alt="" />
-          <span>Bloxlaunch</span>
+      <div
+        data-tauri-drag-region
+        className="fixed top-0 right-0 z-[99999] flex h-[50px] w-full justify-between select-none"
+      >
+        <div
+          className="appName flex flex-row items-center gap-[7px] pl-[15px] opacity-80 [filter:saturate(0)_brightness(100%)] hover:cursor-pointer hover:opacity-100 hover:[filter:saturate(0)_brightness(100%)]"
+          onClick={() => navigate("/about")}
+        >
+          <img className={"h-[50%]"} src="/whiteLogo.svg" alt="" />
+          <span className={"appNameText text-white"}>Bloxlaunch</span>
         </div>
         <div className="titlebar-buttons">
           <div className="titlebar-button" id="titlebar-minimize">
@@ -70,7 +76,7 @@ export default function App() {
         <Sidebar />
 
         {/* Main content */}
-        <div className="content">
+        <div className="content no-scrollbar rounded-[10px] rounded-tr-none border-t border-l border-white/10">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

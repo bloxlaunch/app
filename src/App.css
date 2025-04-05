@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 
@@ -139,7 +138,6 @@ body {
 .titlebar {
   height: 50px;
   width: 100%;
-  /*background: rgba(255, 255, 255, 0.17);*/
   user-select: none;
   display: flex;
   justify-content: space-between;
@@ -147,35 +145,33 @@ body {
   top: 0;
   right: 0;
   z-index: 99999;
-  /*background-color: #1a1a1f;*/
-
 }
 
 .appName {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 7px;
+  /*display: flex;*/
+  /*flex-direction: row;*/
+  /*align-items: center;*/
+  /*gap: 7px;*/
   padding-left: 15px;
-  opacity: 0.8;
-  filter: saturate(0) brightness(100%);
+  /*opacity: 0.8;*/
+  /*filter: saturate(0) brightness(100%);*/
 }
 
-.appName:hover {
-  opacity: 1;
-  filter: saturate(0) brightness(100%);
-  cursor: pointer;
-}
+/*.appName:hover {*/
+/*  opacity: 1;*/
+/*  filter: saturate(0) brightness(100%);*/
+/*  cursor: pointer;*/
+/*}*/
 
-.appName span {
+.appNameText {
   margin-top: 3px;
   font-weight: 500;
 }
 
-.appName img {
-  height: 50%;
+/*.appName img {*/
+/*  height: 50%;*/
 
-}
+/*}*/
 
 
 
@@ -197,6 +193,8 @@ body {
   user-select: none;
   -webkit-user-select: none;
   /*background: rgba(255, 255, 255, 0.86);*/
+  opacity: 80%;
+  transition-duration: .12s;
 }
 
 .titlebar-button img {
@@ -205,5 +203,11 @@ body {
 
 .titlebar-button:hover {
   background: rgba(255, 255, 255, 0.09);
+  opacity: 100%;
+  transition-duration: .12s;
 
+}
+
+#titlebar-close:hover {
+  background: #dc3d44;
 }
