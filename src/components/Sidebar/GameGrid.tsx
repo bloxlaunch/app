@@ -1,7 +1,56 @@
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  MouseSensor,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddGame from "./AddGame.tsx";
 import "./Sidebar.css";
+
+function SortableGame({ game, gameImages, index, navigate, onContextMenu }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: game.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="gameButton"
+      onClick={() => navigate(`/game/${game.id}`)}
+      onDoubleClick={() =>
+        (window.location.href = `roblox://experiences/start?placeId=${game.id}`)
+      }
+      onContextMenu={(e) => {
+        e.preventDefault(); // ✅ Prevent browser context menu here
+        onContextMenu(e, game.id);
+      }}
+      role="button"
+      tabIndex={0}
+    >
+      <img
+        src={gameImages[game.id] || "https://via.placeholder.com/512"}
+        alt={`Game ${index + 1}`}
+        loading="lazy"
+      />
+    </div>
+  );
+}
 
 export default function GameGrid({
   games,
@@ -18,18 +67,37 @@ export default function GameGrid({
     gameId: null,
   });
 
-  // Close context menu when clicking anywhere else
+  // Close context menu on outside click
   useEffect(() => {
-    const handleClick = () => {
+    const handleClick = () =>
       setContextMenu({ ...contextMenu, visible: false });
-    };
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
   }, [contextMenu]);
 
+  // Drag sensors with delay
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        delay: 100, // Hold for 0.5s before drag
+        tolerance: 5,
+      },
+    }),
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      const oldIndex = games.findIndex((g) => g.id === active.id);
+      const newIndex = games.findIndex((g) => g.id === over.id);
+      const reordered = arrayMove(games, oldIndex, newIndex);
+      setGames(reordered);
+      localStorage.setItem("games", JSON.stringify(reordered));
+    }
+  };
+
   useEffect(() => {
     if (games.length === 0) return;
-
     async function fetchGameIcons() {
       try {
         const gameIds = games.map((game) => game.id).join(",");
@@ -66,36 +134,39 @@ export default function GameGrid({
   }, [games]);
 
   return (
-    <div className="gameContainer no-scrollbar grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 overflow-visible">
-      {games.map((game, index) => (
-        <div
-          key={index}
-          className="gameButton"
-          onClick={() => navigate(`/game/${game.id}`)}
-          onDoubleClick={() =>
-            (window.location.href = `roblox://experiences/start?placeId=${game.id}`)
-          }
-          onContextMenu={(e) => {
-            e.preventDefault();
-            setContextMenu({
-              visible: true,
-              x: e.clientX,
-              y: e.clientY,
-              gameId: game.id,
-            });
-          }}
-          role="button"
-          tabIndex={0}
+    <>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={games.map((g) => g.id)}
+          strategy={verticalListSortingStrategy}
         >
-          <img
-            src={gameImages[game.id] || "https://via.placeholder.com/512"}
-            alt={`Game ${index + 1}`}
-            loading="lazy"
-          />
-        </div>
-      ))}
+          <div className="gameContainer no-scrollbar grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 overflow-visible">
+            {games.map((game, index) => (
+              <SortableGame
+                key={game.id}
+                game={game}
+                gameImages={gameImages}
+                index={index}
+                navigate={navigate}
+                onContextMenu={(e, id) =>
+                  setContextMenu({
+                    visible: true,
+                    x: e.clientX,
+                    y: e.clientY,
+                    gameId: id,
+                  })
+                }
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
-      {/* Context Menu */}
+      {/* Custom Context Menu */}
       {contextMenu.visible && (
         <div
           className="fixed z-50 rounded-xl bg-white text-black shadow-md"
@@ -108,13 +179,13 @@ export default function GameGrid({
             localStorage.setItem("games", JSON.stringify(updatedGames));
             setContextMenu({ ...contextMenu, visible: false });
           }}
-          onContextMenu={(e) => e.preventDefault()}
+          onContextMenu={(e) => e.preventDefault()} // prevent on right click here too
         >
           <button className="block w-full cursor-pointer rounded-xl px-4 py-2 text-left hover:bg-red-500 hover:text-white">
             Remove Game
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }
