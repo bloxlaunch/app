@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function AddGame({ onAddGame }) {
+export default function AddGame({ onAddGame, isCollapsed }) {
   const [showModal, setShowModal] = useState(false);
   const [newGameId, setNewGameId] = useState("");
 
@@ -19,7 +19,7 @@ export default function AddGame({ onAddGame }) {
         role="button"
       >
         <img className="h-8 opacity-60" src="/addGameSmaller.svg" alt="" />
-        <p>Add a Game</p>
+        {!isCollapsed && <p>Add a Game</p>}
       </div>
 
       {showModal && (

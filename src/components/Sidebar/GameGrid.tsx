@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddGame from "./AddGame.tsx"; // moved from Sidebar to here
+import AddGame from "./AddGame.tsx";
 import "./Sidebar.css";
 
 export default function GameGrid({
@@ -10,6 +10,22 @@ export default function GameGrid({
   setGameImages,
 }) {
   const navigate = useNavigate();
+
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    gameId: null,
+  });
+
+  // Close context menu when clicking anywhere else
+  useEffect(() => {
+    const handleClick = () => {
+      setContextMenu({ ...contextMenu, visible: false });
+    };
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, [contextMenu]);
 
   useEffect(() => {
     if (games.length === 0) return;
@@ -59,6 +75,15 @@ export default function GameGrid({
           onDoubleClick={() =>
             (window.location.href = `roblox://experiences/start?placeId=${game.id}`)
           }
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setContextMenu({
+              visible: true,
+              x: e.clientX,
+              y: e.clientY,
+              gameId: game.id,
+            });
+          }}
           role="button"
           tabIndex={0}
         >
@@ -69,6 +94,27 @@ export default function GameGrid({
           />
         </div>
       ))}
+
+      {/* Context Menu */}
+      {contextMenu.visible && (
+        <div
+          className="fixed z-50 rounded-xl bg-white text-black shadow-md"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+          onClick={() => {
+            const updatedGames = games.filter(
+              (g) => g.id !== contextMenu.gameId,
+            );
+            setGames(updatedGames);
+            localStorage.setItem("games", JSON.stringify(updatedGames));
+            setContextMenu({ ...contextMenu, visible: false });
+          }}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <button className="block w-full cursor-pointer rounded-xl px-4 py-2 text-left hover:bg-red-500 hover:text-white">
+            Remove Game
+          </button>
+        </div>
+      )}
     </div>
   );
 }

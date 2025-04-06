@@ -12,7 +12,9 @@ export default function Sidebar() {
     return JSON.parse(localStorage.getItem("gameImages")) || {};
   });
 
-  const sidebarRef = useRef(null);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleAddGame = (gameId) => {
     const updatedGames = [...games, { id: gameId }];
@@ -45,6 +47,22 @@ export default function Sidebar() {
     window.addEventListener("mouseup", onMouseUp);
   };
 
+  // ✅ Detect when sidebar is collapsed
+  useEffect(() => {
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
+        setIsCollapsed(width <= 50);
+      }
+    });
+
+    observer.observe(sidebar);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
       ref={sidebarRef}
@@ -65,7 +83,7 @@ export default function Sidebar() {
         />
       </div>
       <div className="border-t border-white/10 p-3">
-        <AddGame onAddGame={handleAddGame} />
+        <AddGame onAddGame={handleAddGame} isCollapsed={isCollapsed} />
       </div>
     </div>
   );
