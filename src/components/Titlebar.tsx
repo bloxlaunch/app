@@ -1,37 +1,83 @@
-import React from "react";
-import { appWindow } from "@tauri-apps/api/window";
-import "./Titlebar.css"; // Create this for styles
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 
-const Titlebar: React.FC = () => {
-	const minimize = () => appWindow.minimize();
-	const toggleMaximize = () => appWindow.toggleMaximize();
-	const close = () => appWindow.close();
+import { getVersion, getName } from "@tauri-apps/api/app";
 
-	return (
-		<div data-tauri-drag-region className="titlebar">
-			<div className="titlebar-button" onClick={minimize}>
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-					<path d="M6 12H18" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-				</svg>
-			</div>
+const isDev = import.meta.env.DEV;
 
-			<div className="titlebar-button" onClick={toggleMaximize}>
-				<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-					<path d="M2 9V6.5C2 4.01 4.01 2 6.5 2H9" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-					<path d="M15 2H17.5C19.99 2 22 4.01 22 6.5V9" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-					<path d="M22 16V17.5C22 19.99 19.99 22 17.5 22H16" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-					<path d="M9 22H6.5C4.01 22 2 19.99 2 17.5V15" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-				</svg>
-			</div>
+export default function Titlebar() {
+  const location = useLocation();
 
-			<div className="titlebar-button" onClick={close}>
-				<svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-					<path d="M2 22L22 2" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-					<path d="M22 22L2 2" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-				</svg>
-			</div>
-		</div>
-	);
-};
+  useEffect(() => {
+    const appWindow = getCurrentWindow();
 
-export default Titlebar;
+    const minimizeBtn = document.getElementById("titlebar-minimize");
+    const maximizeBtn = document.getElementById("titlebar-maximize");
+    const closeBtn = document.getElementById("titlebar-close");
+
+    const handleMinimize = () => appWindow.minimize();
+    const handleMaximize = () => appWindow.toggleMaximize();
+    const handleClose = () => appWindow.close();
+
+    minimizeBtn?.addEventListener("click", handleMinimize);
+    maximizeBtn?.addEventListener("click", handleMaximize);
+    closeBtn?.addEventListener("click", handleClose);
+
+    return () => {
+      minimizeBtn?.removeEventListener("click", handleMinimize);
+      maximizeBtn?.removeEventListener("click", handleMaximize);
+      closeBtn?.removeEventListener("click", handleClose);
+    };
+  }, []);
+
+  const navigate = useNavigate();
+
+  async function showAppInfo() {
+    const version = await getVersion();
+    const name = await getName();
+    console.log(`App: ${name}, Version: ${version}`);
+  }
+
+  return (
+    <div
+      data-tauri-drag-region
+      className="fixed top-0 right-0 z-[99999] flex h-[50px] w-full justify-between select-none"
+    >
+      <div
+        className="appName flex flex-row items-center gap-[7px] pl-[15px] opacity-80 [filter:saturate(0)_brightness(100%)] hover:cursor-pointer hover:opacity-100 hover:[filter:saturate(0)_brightness(100%)]"
+        onClick={() => navigate("/about")}
+      >
+        <img className={"h-[50%]"} src="/whiteLogo.svg" alt="" />
+        {isDev ? (
+          <span className={"appNameText text-white"}>Bloxlaunch</span>
+        ) : (
+          <span className={"appNameText text-white"}>Bloxlaunch</span>
+        )}
+      </div>
+
+      {/*<div className={"flex h-full items-center gap-2"}>*/}
+      {/*  <img className={"h-6"} src="/currently-playing.svg" alt="" />*/}
+      {/*  <span>Evade</span>*/}
+      {/*</div>*/}
+
+      <div className="titlebar-buttons">
+        <div className="titlebar-button" id="titlebar-minimize">
+          <img
+            src="https://api.iconify.design/mdi:window-minimize.svg"
+            alt="minimize"
+          />
+        </div>
+        <div className="titlebar-button" id="titlebar-maximize">
+          <img
+            src="https://api.iconify.design/mdi:window-maximize.svg"
+            alt="maximize"
+          />
+        </div>
+        <div className="titlebar-button" id="titlebar-close">
+          <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
+        </div>
+      </div>
+    </div>
+  );
+}

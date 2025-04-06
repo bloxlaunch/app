@@ -14,7 +14,7 @@ export default function AddGame({ onAddGame }) {
   return (
     <>
       <div
-        className="flex h-16 w-full cursor-pointer flex-row items-center justify-center gap-3 px-4 select-none"
+        className="flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-3 px-4 select-none"
         onClick={() => setShowModal(true)}
         role="button"
       >

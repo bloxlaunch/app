@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 
 import { useNavigate } from "react-router-dom";
+import Titlebar from "./components/Titlebar.tsx";
+import Menubar from "./components/Menubar/Menubar.tsx";
 
 export default function App() {
   const location = useLocation();
@@ -41,42 +43,15 @@ export default function App() {
   return (
     <div className="app">
       {/* Custom Titlebar */}
-      <div
-        data-tauri-drag-region
-        className="fixed top-0 right-0 z-[99999] flex h-[50px] w-full justify-between select-none"
-      >
-        <div
-          className="appName flex flex-row items-center gap-[7px] pl-[15px] opacity-80 [filter:saturate(0)_brightness(100%)] hover:cursor-pointer hover:opacity-100 hover:[filter:saturate(0)_brightness(100%)]"
-          onClick={() => navigate("/about")}
-        >
-          <img className={"h-[50%]"} src="/whiteLogo.svg" alt="" />
-          <span className={"appNameText text-white"}>Bloxlaunch</span>
-        </div>
-        <div className="titlebar-buttons">
-          <div className="titlebar-button" id="titlebar-minimize">
-            <img
-              src="https://api.iconify.design/mdi:window-minimize.svg"
-              alt="minimize"
-            />
-          </div>
-          <div className="titlebar-button" id="titlebar-maximize">
-            <img
-              src="https://api.iconify.design/mdi:window-maximize.svg"
-              alt="maximize"
-            />
-          </div>
-          <div className="titlebar-button" id="titlebar-close">
-            <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
-          </div>
-        </div>
-      </div>
+      <Titlebar />
       <div className={"inner-app"}>
         {/* Sidebar */}
-        {/*<Menubar/>*/}
+
+        {/*{import.meta.env.DEV && <Menubar />}*/}
         <Sidebar />
 
         {/* Main content */}
-        <div className="content no-scrollbar rounded-[10px] rounded-tr-none border-t border-l border-white/10">
+        <div className="content no-scrollbar rounded-xl rounded-tr-none border-t border-l border-white/10">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

@@ -1,21 +1,71 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GameGrid from "./GameGrid.tsx";
 import LocalSearch from "./LocalSearch.tsx";
 import AddGame from "./AddGame.tsx";
 
-// import "./Sidebar.css";
-
 export default function Sidebar() {
+  const [games, setGames] = useState(() => {
+    return JSON.parse(localStorage.getItem("games")) || [];
+  });
+
+  const [gameImages, setGameImages] = useState(() => {
+    return JSON.parse(localStorage.getItem("gameImages")) || {};
+  });
+
+  const sidebarRef = useRef(null);
+
+  const handleAddGame = (gameId) => {
+    const updatedGames = [...games, { id: gameId }];
+    setGames(updatedGames);
+    localStorage.setItem("games", JSON.stringify(updatedGames));
+  };
+
+  // Vertical resizing logic
+  const startResizing = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return; // 💥 Exit if the ref hasn't attached yet
+
+    const sidebarRect = sidebar.getBoundingClientRect();
+
+    const offsetX = e.clientX - sidebarRect.right;
+
+    const onMouseMove = (e: MouseEvent) => {
+      const newWidth = e.clientX - sidebarRect.left - offsetX;
+      sidebar.style.width = `${newWidth}px`;
+    };
+
+    const onMouseUp = () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  };
+
   return (
-    <div className="relative z-[999] mx-10 mb-10 flex w-96 max-w-[600px] min-w-[80px] resize-x flex-col overflow-hidden overflow-x-auto rounded-md bg-black/15">
-      {/*<div className="localSearch">*/}
-      {/*	<LocalSearch/>*/}
-      {/*</div>*/}
+    <div
+      ref={sidebarRef}
+      className="relative z-[999] flex w-96 max-w-[600px] min-w-[80px] flex-col overflow-hidden overflow-x-auto bg-black/15 select-none"
+    >
+      <div
+        onMouseDown={startResizing}
+        className={
+          "absolute top-0 right-0 z-[100] h-full w-1 cursor-ew-resize hover:bg-white/50"
+        }
+      ></div>
       <div className="no-scrollbar flex-1 overflow-y-auto">
-        <GameGrid />
+        <GameGrid
+          games={games}
+          setGames={setGames}
+          gameImages={gameImages}
+          setGameImages={setGameImages}
+        />
       </div>
-      <div className={"border-t border-white/10 p-3"}>
-        <AddGame />
+      <div className="border-t border-white/10 p-3">
+        <AddGame onAddGame={handleAddGame} />
       </div>
     </div>
   );

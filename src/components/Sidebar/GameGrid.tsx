@@ -3,17 +3,14 @@ import { useNavigate } from "react-router-dom";
 import AddGame from "./AddGame.tsx"; // moved from Sidebar to here
 import "./Sidebar.css";
 
-export default function GameGrid() {
+export default function GameGrid({
+  games,
+  setGames,
+  gameImages,
+  setGameImages,
+}) {
   const navigate = useNavigate();
-  const [games, setGames] = useState(() => {
-    return JSON.parse(localStorage.getItem("games")) || [];
-  });
 
-  const [gameImages, setGameImages] = useState(() => {
-    return JSON.parse(localStorage.getItem("gameImages")) || {};
-  });
-
-  // Fetch icons
   useEffect(() => {
     if (games.length === 0) return;
 
@@ -52,13 +49,6 @@ export default function GameGrid() {
     fetchGameIcons();
   }, [games]);
 
-  // Handler to pass to AddGame
-  const handleAddGame = (gameId) => {
-    const updatedGames = [...games, { id: gameId }];
-    setGames(updatedGames);
-    localStorage.setItem("games", JSON.stringify(updatedGames));
-  };
-
   return (
     <div className="gameContainer no-scrollbar grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 overflow-visible">
       {games.map((game, index) => (
@@ -79,7 +69,6 @@ export default function GameGrid() {
           />
         </div>
       ))}
-      <AddGame onAddGame={handleAddGame} />
     </div>
   );
 }

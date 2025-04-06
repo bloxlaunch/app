@@ -16,7 +16,7 @@
 .gameBanner {
     width: 100%;
     display: block;
-    border-radius: 8px;
+    /*border-radius: 8px;*/
     background: url("../../assets/bannerPlaceholder.svg") center/cover no-repeat;
     aspect-ratio: 3;
     object-fit: cover;
