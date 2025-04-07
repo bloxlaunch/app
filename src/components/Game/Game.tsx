@@ -14,6 +14,12 @@ export default function Game() {
   const [error, setError] = useState(null);
   const shouldReduceMotion = useReducedMotion();
 
+  const [privateTab, setPrivateTab] = useState(false);
+
+  const privateTabToggle = () => {
+    setPrivateTab((prev) => !prev);
+  };
+
   const [privateServers, setPrivateServers] = useState(() => {
     const saved = localStorage.getItem("privateServers");
     return saved ? JSON.parse(saved) : {};
@@ -241,6 +247,7 @@ export default function Game() {
 
             {/* More Button*/}
             <button
+              onClick={privateTabToggle}
               className={
                 "flex w-12 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle font-bold text-white"
               }
@@ -251,20 +258,42 @@ export default function Game() {
                 alt=""
               />
             </button>
-            <div className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-md border border-white/10 bg-white/50">
-              <div
-                className="flex h-6 w-full cursor-pointer flex-row items-center justify-center gap-2 px-4 select-none"
-                role="button"
-                onClick={() => setShowModal(true)}
-              >
-                <img
-                  className="h-6 opacity-60"
-                  src="/addGameSmaller.svg"
-                  alt=""
-                />
-                <p>Add a Private Server</p>
+            {privateTab && (
+              <div className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-md border border-white/10 bg-black/100">
+                <div className="flex flex-wrap gap-1">
+                  {currentGameServers.map((server, i) => (
+                    <button
+                      key={i}
+                      onClick={() => (window.location.href = server.uri)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        setContextMenu({
+                          visible: true,
+                          x: e.clientX,
+                          y: e.clientY,
+                          index: i,
+                        });
+                      }}
+                      className="w-full cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                    >
+                      {server.label}
+                    </button>
+                  ))}
+                </div>
+                <div
+                  className="flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 px-4 select-none"
+                  role="button"
+                  onClick={() => setShowModal(true)}
+                >
+                  <img
+                    className="h-6 opacity-60"
+                    src="/addGameSmaller.svg"
+                    alt=""
+                  />
+                  <p>Add a Private Server</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>
           {/* Player Count */}
@@ -297,33 +326,6 @@ export default function Game() {
           {/*<div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>*/}
         </div>
         <div className={"p-6"}>
-          {currentGameServers.length > 0 && (
-            <div className="mt-8">
-              <h2 className="mb-3 text-3xl font-semibold text-white">
-                Private Servers
-              </h2>
-              <div className="flex flex-wrap gap-3">
-                {currentGameServers.map((server, i) => (
-                  <button
-                    key={i}
-                    onClick={() => (window.location.href = server.uri)}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      setContextMenu({
-                        visible: true,
-                        x: e.clientX,
-                        y: e.clientY,
-                        index: i,
-                      });
-                    }}
-                    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-                  >
-                    {server.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
           <div className={"h-auto w-full border-white/10 bg-white/0 p-2"}>
             <h2
               className={
