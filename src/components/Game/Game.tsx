@@ -4,6 +4,7 @@ import { useEffect, useState, createContext } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { formatNumber } from "../Utils.tsx";
 import { toast } from "sonner";
+import AnimatedNumber from "../AnimatedNumber.tsx";
 
 export default function Game() {
   const { id } = useParams();
@@ -191,7 +192,7 @@ export default function Game() {
       } catch (err) {
         // console.error("Failed to fetch game data:", err);
         setError(err.message);
-        toast.error("Failed to update game data.", err);
+        toast.error("Failed to update game info.", err);
         setLoading(false);
       }
     }
@@ -210,13 +211,14 @@ export default function Game() {
     >
       <div className="bannerIcon">
         <div className="bannerContainer rounded-xl">
-          <h2
-            className={
-              "absolute bottom-0 left-0 z-[99] mb-9 ml-5 text-4xl font-bold text-white select-none text-shadow-lg md:text-5xl lg:text-6xl"
-            }
+          <motion.h2
+            initial={{ y: 25, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute bottom-0 left-0 z-[99] mb-9 ml-5 text-4xl font-bold text-white drop-shadow-[0_0_10px_rgb(0,0,0,0.6)] select-none text-shadow-lg md:text-5xl lg:text-6xl"
           >
             {gameData[id]?.title}
-          </h2>
+          </motion.h2>
           <motion.img
             key={gameData[id]?.banner}
             initial={{ opacity: 0 }}
@@ -316,7 +318,10 @@ export default function Game() {
               alt=""
             />
             <span className={"text-3xl font-bold text-white select-none"}>
-              {formatNumber(gameData[id]?.playing)}
+              <AnimatedNumber
+                value={gameData[id]?.playing || 0}
+                format={formatNumber}
+              />
             </span>
           </div>
           <div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>
@@ -328,7 +333,10 @@ export default function Game() {
           >
             <img className={"h-10 select-none"} src="/Play.svg" alt="" />
             <span className={"text-3xl font-bold text-white select-none"}>
-              {formatNumber(gameData[id]?.visits)}
+              <AnimatedNumber
+                value={gameData[id]?.visits || 0}
+                format={formatNumber}
+              />
             </span>
           </div>
           {/*<div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>*/}
@@ -404,30 +412,7 @@ export default function Game() {
   );
 
   return (
-    <AnimatePresence mode="wait">
-      {!gameData[id]?.banner ? (
-        // 🔄 Show loading screen if banner doesn't exist
-        <motion.div
-          key="loading"
-          className="flex min-h-screen items-center justify-center rounded-xl bg-black/40 text-white"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <div className="text-center">
-            <img
-              src="/bouncing-circles.svg"
-              alt="Loading..."
-              className="mx-auto mb-4 h-10 w-10 select-none"
-            />
-            <p className="text-xl font-semibold select-none">
-              Loading game data...
-            </p>
-          </div>
-        </motion.div>
-      ) : (
-        renderGameUI(error ? "Error: Please try again later." : null)
-      )}
+    <>
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
           <div className="w-96 rounded-lg bg-white p-6 text-black">
@@ -489,6 +474,32 @@ export default function Game() {
           </button>
         </div>
       )}
-    </AnimatePresence>
+      <AnimatePresence mode="wait">
+        {!gameData[id]?.banner ? (
+          // 🔄 Show loading screen if banner doesn't exist
+          <motion.div
+            key="loading"
+            className="flex min-h-screen items-center justify-center rounded-xl bg-black/40 text-white"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="text-center">
+              <img
+                src="/bouncing-circles.svg"
+                alt="Loading..."
+                className="mx-auto mb-4 h-10 w-10 select-none"
+              />
+              <p className="text-xl font-semibold select-none">
+                Loading game data...
+              </p>
+            </div>
+          </motion.div>
+        ) : (
+          renderGameUI(error ? "Error: Please try again later." : null)
+        )}
+      </AnimatePresence>
+      );
+    </>
   );
 }
