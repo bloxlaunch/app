@@ -82,7 +82,7 @@ export default function Sidebar() {
           setGameImages={setGameImages}
         />
       </div>
-      <div className="border-t border-white/10 p-3">
+      <div className="border-t border-white/10 p-1">
         <AddGame onAddGame={handleAddGame} isCollapsed={isCollapsed} />
       </div>
     </div>

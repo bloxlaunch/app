@@ -172,7 +172,7 @@ export default function GameGrid({
       {/* Custom Context Menu */}
       {contextMenu.visible && (
         <div
-          className="fixed z-50 rounded-lg border border-white/20 bg-black/80 text-lg text-white shadow-2xl shadow-md backdrop-blur-md"
+          className="fixed z-50 rounded-lg border border-white/20 bg-black/80 p-1 text-lg text-white shadow-2xl backdrop-blur-md"
           style={{ top: contextMenu.y, left: contextMenu.x }}
           onClick={() => {
             const updatedGames = games.filter(
@@ -184,7 +184,7 @@ export default function GameGrid({
           }}
           onContextMenu={(e) => e.preventDefault()} // prevent on right click here too
         >
-          <button className="block w-full cursor-pointer rounded-lg px-4 py-2 text-left hover:bg-white/10 hover:text-white">
+          <button className="block w-full cursor-pointer rounded-md px-4 py-2 text-left hover:bg-white/10 hover:text-white">
             Remove Game
           </button>
         </div>

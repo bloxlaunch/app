@@ -109,7 +109,7 @@ export default function AddGame({ onAddGame, isCollapsed }) {
   return (
     <>
       <div
-        className="flex h-6 w-full cursor-pointer flex-row items-center justify-center gap-2 px-4 select-none"
+        className="flex h-6 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-md px-4 py-5 select-none hover:bg-white/5"
         onClick={() => setShowModal(true)}
         role="button"
       >

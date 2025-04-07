@@ -217,13 +217,21 @@ export default function Game() {
           >
             {gameData[id]?.title}
           </h2>
-          <img
+          <motion.img
+            key={gameData[id]?.banner}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             src={gameData[id]?.banner || "https://placehold.co/1320x440"}
             alt="Game Banner"
             className="gameBanner select-none"
             loading="lazy"
           />
-          <img
+          <motion.img
+            key={gameData[id]?.banner}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             src={gameData[id]?.banner || "https://placehold.co/1320x440"}
             alt="Game Banner"
             className="gameBannerBack select-none"
@@ -259,7 +267,7 @@ export default function Game() {
               />
             </button>
             {privateTab && (
-              <div className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-md border border-white/10 bg-black/100">
+              <div className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-lg border border-white/10 bg-black/100 p-1">
                 <div className="flex flex-wrap gap-1">
                   {currentGameServers.map((server, i) => (
                     <button
@@ -281,7 +289,7 @@ export default function Game() {
                   ))}
                 </div>
                 <div
-                  className="flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 px-4 select-none"
+                  className="mt-1 flex h-6 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-md px-4 py-5 select-none hover:bg-white/5"
                   role="button"
                   onClick={() => setShowModal(true)}
                 >
@@ -457,12 +465,12 @@ export default function Game() {
       )}
       {contextMenu.visible && (
         <div
-          className="fixed z-50 rounded-md bg-black/90 text-white shadow-md"
+          className="fixed z-50 rounded-lg border border-white/20 bg-black/80 p-1 text-lg text-white shadow-2xl backdrop-blur-md"
           style={{ top: contextMenu.y, left: contextMenu.x }}
           onContextMenu={(e) => e.preventDefault()}
         >
           <button
-            className="block w-full px-4 py-2 text-left hover:bg-white/10"
+            className="block w-full rounded-md px-4 py-2 text-left hover:bg-white/10"
             onClick={() => {
               handleRenameServer(contextMenu.index);
               setContextMenu({ ...contextMenu, visible: false });
@@ -471,7 +479,7 @@ export default function Game() {
             Rename
           </button>
           <button
-            className="block w-full px-4 py-2 text-left hover:bg-white/10"
+            className="block w-full rounded-md px-4 py-2 text-left hover:bg-white/10"
             onClick={() => {
               handleDeleteServer(contextMenu.index);
               setContextMenu({ ...contextMenu, visible: false });
