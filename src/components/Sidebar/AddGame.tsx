@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function AddGame({ onAddGame, isCollapsed }) {
   const [showModal, setShowModal] = useState(false);
@@ -8,6 +9,7 @@ export default function AddGame({ onAddGame, isCollapsed }) {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -64,10 +66,15 @@ export default function AddGame({ onAddGame, isCollapsed }) {
       ?.includes(game.rootPlaceId);
     if (alreadyExists) {
       toast.error("This game is already added.");
+      navigate(`/game/${game.rootPlaceId}`);
+      setShowModal(false);
+      setResults([]);
+      setQuery("");
       return;
     }
 
     onAddGame(game.rootPlaceId); // use placeId
+    navigate(`/game/${game.rootPlaceId}`);
     setShowModal(false);
     setResults([]);
     setQuery("");

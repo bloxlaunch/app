@@ -108,6 +108,7 @@ export default function Game() {
             banner: bannerItem?.imageUrl || "https://placehold.co/1320x440",
             thumbnails,
             videos,
+            privateServers: [],
           },
         };
 
@@ -167,7 +168,7 @@ export default function Game() {
                 (window.location.href = `roblox://experiences/start?placeId=${gameData[id]}`)
               }
               className={
-                "flex w-52 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle"
+                "flex w-64 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle"
               }
             >
               <img className={"h-7 select-none"} src="/Play.svg" alt="" />
@@ -184,11 +185,24 @@ export default function Game() {
                 alt=""
               />
             </button>
-            {/*<div*/}
-            {/*  className={*/}
-            {/*    "absolute z-50 mt-13 h-40 w-65 rounded-md border border-white/10 bg-white/20 backdrop-blur-md"*/}
-            {/*  }*/}
-            {/*></div>*/}
+            <div
+              className={
+                "bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-md border border-white/10 bg-white/50"
+              }
+            >
+              <div
+                className="flex h-6 w-full cursor-pointer flex-row items-center justify-center gap-2 px-4 select-none"
+                role="button"
+              >
+                <img
+                  className="h-6 opacity-60"
+                  src="/addGameSmaller.svg"
+                  alt=""
+                />
+                <p>Add a Private Server</p>
+                {/*  roblox://navigation/share_links?code=ce65b2c80e8dae48866fe2f919966557&type=Server  */}
+              </div>
+            </div>
           </div>
           <div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>
           {/* Player Count */}
@@ -292,12 +306,29 @@ export default function Game() {
 
   return (
     <AnimatePresence mode="wait">
-      {loading
-        ? renderGameUI() //success
-        : error
-          ? // ? renderGameUI("Error: Please try again in 30 seconds.") //error
-            renderGameUI()
-          : renderGameUI()}
+      {!gameData[id]?.banner ? (
+        // 🔄 Show loading screen if banner doesn't exist
+        <motion.div
+          key="loading"
+          className="flex min-h-screen items-center justify-center rounded-xl bg-black/40 text-white"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <div className="text-center">
+            <img
+              src="/bouncing-circles.svg"
+              alt="Loading..."
+              className="mx-auto mb-4 h-10 w-10 select-none"
+            />
+            <p className="text-xl font-semibold select-none">
+              Loading game data...
+            </p>
+          </div>
+        </motion.div>
+      ) : (
+        renderGameUI(error ? "Error: Please try again later." : null)
+      )}
     </AnimatePresence>
   );
 }
