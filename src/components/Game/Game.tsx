@@ -108,7 +108,6 @@ export default function Game() {
             banner: bannerItem?.imageUrl || "https://placehold.co/1320x440",
             thumbnails,
             videos,
-            privateServers: [],
           },
         };
 
@@ -165,14 +164,13 @@ export default function Game() {
             {/* Play Button */}
             <button
               onClick={() =>
-                (window.location.href = `roblox://experiences/start?placeId=${gameData[id]}`)
+                (window.location.href = `roblox://experiences/start?placeId=${id}`)
               }
-              className={
-                "flex w-64 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle"
-              }
+              className="flex w-64 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle"
             >
-              <img className={"h-7 select-none"} src="/Play.svg" alt="" />
+              <img className="h-7 select-none" src="/Play.svg" alt="" />
             </button>
+
             {/* More Button*/}
             <button
               className={
