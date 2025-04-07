@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState, createContext } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { formatNumber } from "../Utils.tsx";
+import { toast } from "sonner";
 
 export default function Game() {
   const { id } = useParams();
@@ -114,8 +115,9 @@ export default function Game() {
         localStorage.setItem("gameData", JSON.stringify(updatedGameData));
         setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch game data:", err);
+        // console.error("Failed to fetch game data:", err);
         setError(err.message);
+        toast.error("Failed to update game data.", err);
         setLoading(false);
       }
     }
@@ -279,6 +281,7 @@ export default function Game() {
       </div>
 
       <img
+        // src={gameData[id]?.banner || "https://placehold.co/1320x440"}
         src={gameData[id]?.banner || "https://placehold.co/1320x440"}
         alt="Game Banner"
         className="gameBackground select-none"
@@ -290,9 +293,10 @@ export default function Game() {
   return (
     <AnimatePresence mode="wait">
       {loading
-        ? renderGameUI("Loading game...")
+        ? renderGameUI() //success
         : error
-          ? renderGameUI("Error: Please try again in 30 seconds.")
+          ? // ? renderGameUI("Error: Please try again in 30 seconds.") //error
+            renderGameUI()
           : renderGameUI()}
     </AnimatePresence>
   );

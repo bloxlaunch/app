@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AddGame({ onAddGame, isCollapsed }) {
   const [showModal, setShowModal] = useState(false);
@@ -60,7 +62,10 @@ export default function AddGame({ onAddGame, isCollapsed }) {
     const alreadyExists = localStorage
       .getItem("games")
       ?.includes(game.rootPlaceId);
-    if (alreadyExists) return;
+    if (alreadyExists) {
+      toast.error("This game is already added.");
+      return;
+    }
 
     onAddGame(game.rootPlaceId); // use placeId
     setShowModal(false);
@@ -68,71 +73,115 @@ export default function AddGame({ onAddGame, isCollapsed }) {
     setQuery("");
   };
 
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowModal(false);
+      }
+    };
+
+    const handleEsc = (event) => {
+      if (event.key === "Escape") {
+        setShowModal(false);
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleOutsideClick);
+      document.addEventListener("keydown", handleEsc);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, [showModal]);
+
   return (
     <>
       <div
-        className="flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-3 px-4 select-none"
+        className="flex h-6 w-full cursor-pointer flex-row items-center justify-center gap-2 px-4 select-none"
         onClick={() => setShowModal(true)}
         role="button"
       >
-        <img className="h-8 opacity-60" src="/addGameSmaller.svg" alt="" />
+        <img className="h-6 opacity-60" src="/addGameSmaller.svg" alt="" />
         {!isCollapsed && <p>Add a Game</p>}
       </div>
 
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/0">
-          <div className="no-scrollbar max-h-[80vh] w-[600px] overflow-y-auto rounded-xl border border-white/10 bg-black/80 p-5 text-center text-white backdrop-blur-2xl">
-            <h3 className="mt-4 mb-8 text-5xl font-bold">Search Games</h3>
-            {/* Search Bar */}
-            <div className="sticky top-0 z-50 mb-4 flex gap-2 rounded-lg bg-black/60 backdrop-blur-xl">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search Roblox games..."
-                className="flex-1 rounded-lg border border-white/30 bg-black/40 p-2.5 outline-none"
-              />
-              <button
-                onClick={handleSearch}
-                className="absolute right-0 m-1 h-[calc(100%-0.25rem-4px)] cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-              >
-                Search
-              </button>
-            </div>
-
-            {loading && <p>Searching...</p>}
-            {error && <p className="text-red-500">{error}</p>}
-
-            <div className="grid grid-cols-3 gap-4">
-              {results.map((game, i) => (
-                <div
-                  key={i}
-                  onClick={() => handleAdd(game)}
-                  className="cursor-pointer rounded-lg border border-white/10 bg-black/40 p-2 hover:bg-white/10"
-                >
-                  <img
-                    src={game.icon || "https://via.placeholder.com/512"}
-                    alt={game.name}
-                    className="mb-2 h-auto w-full rounded-md object-cover"
-                  />
-                  <p className="text-md font-semibold">{game.name}</p>
-                  {/*<img src="/currently-playing.svg" alt="" />*/}
-                  <p className="text-xs opacity-60">
-                    {game.playerCount.toLocaleString()} playing
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <button
-              className="mt-5 rounded border-0 bg-[#1d1d1d] px-4 py-2 text-white hover:bg-white/20"
-              onClick={() => setShowModal(false)}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            className="fixed inset-0 z-[125] flex items-center justify-center bg-black/30 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              ref={modalRef}
+              className="no-scrollbar mx-5 max-h-[80vh] w-[600px] overflow-y-auto rounded-xl border border-white/10 bg-black/80 p-5 text-center text-white backdrop-blur-2xl"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+              <img
+                className="absolute top-0 right-0 m-2 cursor-pointer rounded border-0 px-2 py-2 text-white invert hover:bg-white/20"
+                src="https://api.iconify.design/mdi:close.svg"
+                alt="close"
+                onClick={() => setShowModal(false)}
+              />
+              <h3 className="mt-4 mb-8 text-5xl font-bold">Search Games</h3>
+
+              <form
+                className="sticky top-0 z-50 mb-4 flex gap-2 rounded-lg bg-black/60 backdrop-blur-xl"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSearch();
+                }}
+              >
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search Roblox games..."
+                  className="flex-1 rounded-lg border border-white/20 bg-black/40 p-2.5 outline-none"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-0 m-1 h-[calc(100%-0.25rem-4px)] cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                >
+                  Search
+                </button>
+              </form>
+
+              {loading && <p>Searching...</p>}
+              {error && <p className="text-red-500">{error}</p>}
+
+              <div className="grid grid-cols-3 gap-4">
+                {results.map((game, i) => (
+                  <div
+                    key={i}
+                    onClick={() => handleAdd(game)}
+                    className="cursor-pointer rounded-lg border border-white/10 bg-black/40 p-2 hover:bg-white/10"
+                  >
+                    <img
+                      src={game.icon || "https://via.placeholder.com/512"}
+                      alt={game.name}
+                      className="mb-2 h-auto w-full rounded-md object-cover"
+                    />
+                    <p className="text-md font-semibold">{game.name}</p>
+                    <p className="text-xs opacity-60">
+                      {game.playerCount.toLocaleString()} playing
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

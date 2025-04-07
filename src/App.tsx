@@ -1,3 +1,4 @@
+"use client";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
@@ -8,6 +9,8 @@ import Profile from "./pages/Profile.tsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
+// import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "sonner";
 
 import { useNavigate } from "react-router-dom";
 import Titlebar from "./components/Titlebar.tsx";
@@ -44,6 +47,17 @@ export default function App() {
     <div className="app">
       {/* Custom Titlebar */}
       <Titlebar />
+      {/*<Toaster position="bottom-right" reverseOrder={false} />*/}
+      <Toaster
+        toastOptions={{
+          style: {
+            background: "rgba(0, 0, 0, 0.4)",
+            color: "white",
+            backdropFilter: "blur(5px)",
+            borderColor: "rgba(255, 255, 255, 0.1)",
+          },
+        }}
+      />
       <div className={"inner-app"}>
         {/* Sidebar */}
 
