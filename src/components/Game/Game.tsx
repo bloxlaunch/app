@@ -14,6 +14,74 @@ export default function Game() {
   const [error, setError] = useState(null);
   const shouldReduceMotion = useReducedMotion();
 
+  const [privateServers, setPrivateServers] = useState(() => {
+    const saved = localStorage.getItem("privateServers");
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [showModal, setShowModal] = useState(false);
+  const [linkInput, setLinkInput] = useState("");
+  const [labelInput, setLabelInput] = useState("");
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    index: null,
+  });
+
+  const currentGameServers = privateServers[id] || [];
+
+  useEffect(() => {
+    const handleClick = () =>
+      setContextMenu({ ...contextMenu, visible: false });
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, [contextMenu]);
+
+  const handleAddPrivateServer = () => {
+    try {
+      const url = new URL(linkInput);
+      const code = url.searchParams.get("code");
+      const type = url.searchParams.get("type");
+      if (!code || !type) throw new Error("Invalid link");
+
+      const uri = `roblox://navigation/share_links?code=${code}&type=${type}`;
+      const newEntry = { label: labelInput || "Private Server", uri };
+
+      const updatedServers = {
+        ...privateServers,
+        [id]: [...(privateServers[id] || []), newEntry],
+      };
+
+      setPrivateServers(updatedServers);
+      localStorage.setItem("privateServers", JSON.stringify(updatedServers));
+      setLinkInput("");
+      setLabelInput("");
+      setShowModal(false);
+    } catch (err) {
+      toast.error("Invalid Roblox private server link");
+    }
+  };
+
+  const handleRenameServer = (index) => {
+    const label = prompt("Enter new label:");
+    if (!label) return;
+    const updated = [...currentGameServers];
+    updated[index].label = label;
+
+    const newData = { ...privateServers, [id]: updated };
+    setPrivateServers(newData);
+    localStorage.setItem("privateServers", JSON.stringify(newData));
+  };
+
+  const handleDeleteServer = (index) => {
+    const updated = [...currentGameServers];
+    updated.splice(index, 1);
+
+    const newData = { ...privateServers, [id]: updated };
+    setPrivateServers(newData);
+    localStorage.setItem("privateServers", JSON.stringify(newData));
+  };
+
   useEffect(() => {
     async function fetchGameData() {
       try {
@@ -183,14 +251,11 @@ export default function Game() {
                 alt=""
               />
             </button>
-            <div
-              className={
-                "bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-md border border-white/10 bg-white/50"
-              }
-            >
+            <div className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-md border border-white/10 bg-white/50">
               <div
                 className="flex h-6 w-full cursor-pointer flex-row items-center justify-center gap-2 px-4 select-none"
                 role="button"
+                onClick={() => setShowModal(true)}
               >
                 <img
                   className="h-6 opacity-60"
@@ -198,7 +263,6 @@ export default function Game() {
                   alt=""
                 />
                 <p>Add a Private Server</p>
-                {/*  roblox://navigation/share_links?code=ce65b2c80e8dae48866fe2f919966557&type=Server  */}
               </div>
             </div>
           </div>
@@ -233,6 +297,33 @@ export default function Game() {
           {/*<div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>*/}
         </div>
         <div className={"p-6"}>
+          {currentGameServers.length > 0 && (
+            <div className="mt-8">
+              <h2 className="mb-3 text-3xl font-semibold text-white">
+                Private Servers
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                {currentGameServers.map((server, i) => (
+                  <button
+                    key={i}
+                    onClick={() => (window.location.href = server.uri)}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      setContextMenu({
+                        visible: true,
+                        x: e.clientX,
+                        y: e.clientY,
+                        index: i,
+                      });
+                    }}
+                    className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                  >
+                    {server.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           <div className={"h-auto w-full border-white/10 bg-white/0 p-2"}>
             <h2
               className={
@@ -326,6 +417,67 @@ export default function Game() {
         </motion.div>
       ) : (
         renderGameUI(error ? "Error: Please try again later." : null)
+      )}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="w-96 rounded-lg bg-white p-6 text-black">
+            <h2 className="mb-4 text-xl font-semibold">Add Private Server</h2>
+            <input
+              type="text"
+              placeholder="Roblox share link"
+              className="mb-3 w-full rounded border px-3 py-2"
+              value={linkInput}
+              onChange={(e) => setLinkInput(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Label"
+              className="mb-4 w-full rounded border px-3 py-2"
+              value={labelInput}
+              onChange={(e) => setLabelInput(e.target.value)}
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowModal(false)}
+                className="rounded bg-gray-300 px-4 py-2"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddPrivateServer}
+                className="rounded bg-blue-600 px-4 py-2 text-white"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {contextMenu.visible && (
+        <div
+          className="fixed z-50 rounded-md bg-black/90 text-white shadow-md"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <button
+            className="block w-full px-4 py-2 text-left hover:bg-white/10"
+            onClick={() => {
+              handleRenameServer(contextMenu.index);
+              setContextMenu({ ...contextMenu, visible: false });
+            }}
+          >
+            Rename
+          </button>
+          <button
+            className="block w-full px-4 py-2 text-left hover:bg-white/10"
+            onClick={() => {
+              handleDeleteServer(contextMenu.index);
+              setContextMenu({ ...contextMenu, visible: false });
+            }}
+          >
+            Delete
+          </button>
+        </div>
       )}
     </AnimatePresence>
   );
