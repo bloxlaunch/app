@@ -26,7 +26,7 @@ export default function About() {
       <div className="container mx-auto flex flex-col items-center p-5">
         <img
           className="pt-15"
-          src="/public/Bloxlaunch-Logo.svg"
+          src="/Bloxlaunch-Logo.svg"
           alt="Bloxlaunch Logo"
         />
         <h1 className="px-2 text-4xl font-medium">Version 0.2.0</h1>

@@ -12,9 +12,11 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { restrictToParentElement } from "@dnd-kit/modifiers";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
+import { rectSortingStrategy } from "@dnd-kit/sortable";
 
 function SortableGame({ game, gameImages, index, navigate, onContextMenu }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -79,8 +81,8 @@ export default function GameGrid({
   const sensors = useSensors(
     useSensor(MouseSensor, {
       activationConstraint: {
-        delay: 100, // Hold for 0.5s before drag
-        tolerance: 5,
+        delay: 100,
+        tolerance: 4,
       },
     }),
   );
@@ -139,10 +141,11 @@ export default function GameGrid({
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
+        modifiers={[restrictToParentElement]}
       >
         <SortableContext
           items={games.map((g) => g.id)}
-          strategy={verticalListSortingStrategy}
+          strategy={rectSortingStrategy}
         >
           <div className="gameContainer no-scrollbar grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-2 overflow-visible">
             {games.map((game, index) => (
@@ -169,7 +172,7 @@ export default function GameGrid({
       {/* Custom Context Menu */}
       {contextMenu.visible && (
         <div
-          className="fixed z-50 rounded-xl bg-white text-black shadow-md"
+          className="fixed z-50 rounded-lg border border-white/20 bg-black/80 text-lg text-white shadow-2xl shadow-md backdrop-blur-md"
           style={{ top: contextMenu.y, left: contextMenu.x }}
           onClick={() => {
             const updatedGames = games.filter(
@@ -181,7 +184,7 @@ export default function GameGrid({
           }}
           onContextMenu={(e) => e.preventDefault()} // prevent on right click here too
         >
-          <button className="block w-full cursor-pointer rounded-xl px-4 py-2 text-left hover:bg-red-500 hover:text-white">
+          <button className="block w-full cursor-pointer rounded-lg px-4 py-2 text-left hover:bg-white/10 hover:text-white">
             Remove Game
           </button>
         </div>

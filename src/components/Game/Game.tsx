@@ -144,26 +144,20 @@ export default function Game() {
           <img
             src={gameData[id]?.banner || "https://placehold.co/1320x440"}
             alt="Game Banner"
-            className="gameBanner"
+            className="gameBanner select-none"
             loading="lazy"
           />
           <img
             src={gameData[id]?.banner || "https://placehold.co/1320x440"}
             alt="Game Banner"
-            className="gameBannerBack"
+            className="gameBannerBack select-none"
             loading="lazy"
           />
         </div>
-        {/*<img*/}
-        {/*  src={gameData[id]?.icon || "https://placehold.co/512"}*/}
-        {/*  alt="Game Icon"*/}
-        {/*  className="gameIcon"*/}
-        {/*  loading="lazy"*/}
-        {/*/>*/}
       </div>
 
-      <div className="relative z-10 mt-[-20px] flex h-auto flex-col border-t border-white/10 bg-black/35 pb-8">
-        <div className="bg-g sticky top-0 z-10 flex h-21 w-full bg-black/25 px-6 py-4 backdrop-blur-xl">
+      <div className="relative z-10 mt-[-20px] flex h-auto flex-col border-t border-white/10 bg-black/35 pb-8 backdrop-blur-xl">
+        <div className="bg-g z-10 flex h-21 w-full bg-black/0 px-6 py-4">
           <div className={"flex flex-row gap-1"}>
             {/* Play Button */}
             <button
@@ -174,7 +168,7 @@ export default function Game() {
                 "flex w-52 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle"
               }
             >
-              <img className={"h-7"} src="/Play.svg" alt="" />
+              <img className={"h-7 select-none"} src="/Play.svg" alt="" />
             </button>
             {/* More Button*/}
             <button
@@ -182,7 +176,11 @@ export default function Game() {
                 "flex w-12 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle font-bold text-white"
               }
             >
-              <img className={"h-3"} src="/down-small-on.svg" alt="" />
+              <img
+                className={"h-3 select-none"}
+                src="/down-small-on.svg"
+                alt=""
+              />
             </button>
             {/*<div*/}
             {/*  className={*/}
@@ -197,7 +195,11 @@ export default function Game() {
               "flex content-center items-center justify-center gap-2 pl-5"
             }
           >
-            <img className={"h-10"} src="/currently-playing.svg" alt="" />
+            <img
+              className={"h-10 select-none"}
+              src="/currently-playing.svg"
+              alt=""
+            />
             <span className={"text-3xl font-bold text-white select-none"}>
               {formatNumber(gameData[id]?.playing)}
             </span>
@@ -209,7 +211,7 @@ export default function Game() {
               "flex content-center items-center justify-center gap-2 pl-5"
             }
           >
-            <img className={"h-10"} src="/Play.svg" alt="" />
+            <img className={"h-10 select-none"} src="/Play.svg" alt="" />
             <span className={"text-3xl font-bold text-white select-none"}>
               {formatNumber(gameData[id]?.visits)}
             </span>
@@ -235,12 +237,19 @@ export default function Game() {
             </p>
           </div>
 
-          <h2 className={"pt-6 pb-0 text-4xl font-semibold text-white"}>
+          <h2
+            className={
+              "pt-6 pb-0 text-4xl font-semibold text-white select-none"
+            }
+          >
             Thumbnails
           </h2>
           <div className="mt-4 grid grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {gameData[id]?.videos?.map((video, i) => (
-              <div key={i} className="relative w-full rounded-2xl pb-[56.25%]">
+              <div
+                key={i}
+                className="relative w-full rounded-2xl pb-[56.25%] select-none"
+              >
                 <iframe
                   src={video}
                   title={`Video ${i + 1}`}
@@ -255,7 +264,7 @@ export default function Game() {
                 key={i}
                 src={src}
                 alt={`Thumbnail ${i + 1}`}
-                className="w-full rounded-2xl object-cover"
+                className="w-full rounded-2xl object-cover select-none"
               />
             ))}
           </div>
@@ -272,7 +281,7 @@ export default function Game() {
       <img
         src={gameData[id]?.banner || "https://placehold.co/1320x440"}
         alt="Game Banner"
-        className="gameBackground"
+        className="gameBackground select-none"
         loading="lazy"
       />
     </motion.div>

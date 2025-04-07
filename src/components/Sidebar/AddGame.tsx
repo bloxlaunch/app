@@ -23,17 +23,32 @@ export default function AddGame({ onAddGame, isCollapsed }) {
       </div>
 
       {showModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="fixed inset-0 flex h-full w-full items-center justify-center bg-black/40">
+          <div className="rounded-xl bg-black/90 p-5 text-center backdrop-blur-[25px]">
             <h3>Add New Game</h3>
             <input
               type="text"
               value={newGameId}
               onChange={(e) => setNewGameId(e.target.value)}
               placeholder="Enter Game ID"
+              className={"my-2.5 w-full border border-white/30 p-2.5"}
             />
-            <button onClick={handleSubmit}>Add</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
+            <button
+              className={
+                "m-1.5 cursor-pointer rounded border-0 bg-[#1d1d1d] p-2.5 text-white"
+              }
+              onClick={handleSubmit}
+            >
+              Add
+            </button>
+            <button
+              className={
+                "m-1.5 cursor-pointer rounded border-0 bg-[#1d1d1d] p-2.5 text-white"
+              }
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
