@@ -5,10 +5,12 @@ export default function AddGame({ onAddGame, isCollapsed }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSearch = async () => {
     if (!query.trim()) return;
     setLoading(true);
+    setError("");
     setResults([]);
 
     try {
@@ -45,13 +47,22 @@ export default function AddGame({ onAddGame, isCollapsed }) {
       setResults(resultsWithIcons);
     } catch (err) {
       console.error("Search failed:", err);
+      setError("Search failed. Try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleAdd = (game) => {
-    onAddGame(game.rootPlaceId);
+    if (!game.rootPlaceId) return;
+
+    // Avoid duplicates
+    const alreadyExists = localStorage
+      .getItem("games")
+      ?.includes(game.rootPlaceId);
+    if (alreadyExists) return;
+
+    onAddGame(game.rootPlaceId); // use placeId
     setShowModal(false);
     setResults([]);
     setQuery("");
@@ -90,6 +101,7 @@ export default function AddGame({ onAddGame, isCollapsed }) {
             </div>
 
             {loading && <p>Searching...</p>}
+            {error && <p className="text-red-500">{error}</p>}
 
             <div className="grid grid-cols-3 gap-4">
               {results.map((game, i) => (
