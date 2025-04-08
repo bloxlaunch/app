@@ -491,7 +491,7 @@ export default function Game() {
                 className="mx-auto mb-4 h-10 w-10 select-none"
               />
               <p className="text-xl font-semibold select-none">
-                Loading game data...
+                Loading game...
               </p>
             </div>
           </motion.div>

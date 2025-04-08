@@ -21,6 +21,10 @@
     margin: 0;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   :root {
     font-family: Montserrat, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;

@@ -18,7 +18,7 @@ export default function AddGame({ onAddGame, isCollapsed }) {
     setResults([]);
 
     try {
-      const sessionId = crypto.randomUUID(); // Any unique string
+      const sessionId = crypto.randomUUID();
       const response = await fetch(
         `https://apis.roproxy.com/search-api/omni-search?searchQuery=${encodeURIComponent(
           query,
