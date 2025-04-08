@@ -163,7 +163,10 @@ export default function AddGame({ onAddGame, isCollapsed }) {
                 </button>
               </form>
 
-              {loading && <p>Searching...</p>}
+              {loading && (
+                // <p>Searching...</p>
+                <img src="" alt="" />
+              )}
               {error && <p className="text-red-500">{error}</p>}
 
               <div className="grid grid-cols-3 gap-4">
