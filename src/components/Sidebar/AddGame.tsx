@@ -166,7 +166,7 @@ export default function AddGame({ onAddGame, isCollapsed }) {
 
               {loading && (
                 // <p>Searching...</p>
-                <img src="" alt="" />
+                <img className={"flash"} src="/loadingGamesSearch.svg" alt="" />
               )}
               {error && <p className="text-red-500">{error}</p>}
 
