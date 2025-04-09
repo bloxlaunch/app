@@ -2,8 +2,8 @@
 > The only official places to download Bloxlaunch are here and [bloxlaunch.com](https://bloxlaunch.com).
 
 <p align="center">
-    <img src="https://github.com/bloxlaunch/app/raw/main/Images/Bloxstrap-dark.png#gh-dark-mode-only" width="400">
-    <img src="https://github.com/bloxlaunch/app/raw/main/Images/Bloxstrap-light.png#gh-light-mode-only" width="400">
+    <img src="https://github.com/bloxlaunch/app/raw/main/images/bloxlaunch-dark.png#gh-dark-mode-only" width="450">
+    <img src="https://github.com/bloxlaunch/app/raw/main/images/bloxlaunch-light.png#gh-light-mode-only" width="450">
 </p>
 
 <div align="center">
