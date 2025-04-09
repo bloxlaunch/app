@@ -30,8 +30,9 @@ export default function AddGame({ onAddGame, isCollapsed }) {
         .flatMap((group) => group.contents)
         .filter((item) => item.contentType === "Game");
 
-      const sorted = games.sort((a, b) => b.playerCount - a.playerCount);
-      const universeIds = sorted.map((g) => g.universeId).join(",");
+      // const sorted = games.sort((a, b) => b.playerCount - a.playerCount);
+      // const universeIds = sorted.map((g) => g.universeId).join(",");
+      const universeIds = games.map((g) => g.universeId).join(",");
 
       const iconRes = await fetch(
         `https://thumbnails.roproxy.com/v1/games/icons?universeIds=${universeIds}&returnPolicy=PlaceHolder&size=256x256&format=Webp&isCircular=false`,
@@ -43,7 +44,7 @@ export default function AddGame({ onAddGame, isCollapsed }) {
         iconMap[item.targetId] = item.imageUrl;
       });
 
-      const resultsWithIcons = sorted.map((game) => ({
+      const resultsWithIcons = games.map((game) => ({
         ...game,
         icon: iconMap[game.universeId],
       }));

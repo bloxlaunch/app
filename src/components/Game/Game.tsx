@@ -95,7 +95,6 @@ export default function Game() {
         setLoading(true);
         setError(null);
 
-        // Step 1: Get Universe ID
         const universeResponse = await fetch(
           `https://apis.roproxy.com/universes/v1/places/${id}/universe`,
         );
@@ -103,60 +102,45 @@ export default function Game() {
         if (!universeData.universeId)
           throw new Error("Failed to retrieve universe ID");
 
-        // Step 2: Fetch game details using Universe ID
-        const detailsUrl = `https://games.roproxy.com/v1/games?universeIds=${universeData.universeId}`;
-        const detailsResponse = await fetch(detailsUrl);
+        const detailsResponse = await fetch(
+          `https://games.roproxy.com/v1/games?universeIds=${universeData.universeId}`,
+        );
         const detailsData = await detailsResponse.json();
         if (!detailsData.data || detailsData.data.length === 0)
           throw new Error("No game details found");
 
         const gameDetails = detailsData.data[0];
 
-        // Step 3: Fetch game icon and banner
-        const [iconResponse, bannerResponse] = await Promise.all([
-          fetch(
-            `https://thumbnails.roproxy.com/v1/places/gameicons?placeIds=${id}&returnPolicy=PlaceHolder&size=512x512&format=Webp&isCircular=false`,
-          ),
-          fetch(
-            `https://thumbnails.roproxy.com/v1/assets?assetIds=${id}&returnPolicy=PlaceHolder&size=1320x440&format=Png&isCircular=false`,
-          ),
-        ]);
-
-        const iconData = await iconResponse.json();
-        const bannerData = await bannerResponse.json();
-
-        // Extract icon & banner
-        const iconItem = iconData.data.find(
-          (item) => item.targetId === parseInt(id),
+        const bannerPromise = fetch(
+          `https://thumbnails.roproxy.com/v1/assets?assetIds=${id}&returnPolicy=PlaceHolder&size=1320x440&format=Webp&isCircular=false`,
         );
+
+        const mediaPromise = fetch(
+          `https://games.roproxy.com/v2/games/${universeData.universeId}/media`,
+        );
+
+        const bannerResponse = await bannerPromise;
+        const bannerData = await bannerResponse.json();
         const bannerItem = bannerData.data.find(
           (item) => item.targetId === parseInt(id),
         );
 
-        // Step 4: Fetch media items
-        const mediaUrl = `https://games.roproxy.com/v2/games/${universeData.universeId}/media`;
-        const mediaResponse = await fetch(mediaUrl);
+        const mediaResponse = await mediaPromise;
         const mediaData = await mediaResponse.json();
-
         if (!Array.isArray(mediaData.data))
           throw new Error("Media data malformed or missing");
 
-        // Filter only image items with a valid imageId
         const validImages = mediaData.data.filter(
           (item) =>
             item.assetType === "Image" && typeof item.imageId === "number",
         );
-
         const imageIds = validImages.map((item) => item.imageId);
 
-        // Only request thumbnails if we have image IDs
         let thumbnails = [];
         if (imageIds.length > 0) {
-          const thumbnailsApi = `https://thumbnails.roproxy.com/v1/games/${universeData.universeId}/thumbnails?thumbnailIds=${imageIds.join(
-            ",",
-          )}&size=768x432&format=Webp&isCircular=false`;
-
-          const thumbnailsResponse = await fetch(thumbnailsApi);
+          const thumbnailsResponse = await fetch(
+            `https://thumbnails.roproxy.com/v1/games/${universeData.universeId}/thumbnails?thumbnailIds=${imageIds.join(",")}&size=768x432&format=Webp&isCircular=false`,
+          );
           const thumbnailsData = await thumbnailsResponse.json();
 
           thumbnails = thumbnailsData.data
@@ -168,7 +152,6 @@ export default function Game() {
           .filter((item) => item.assetType === "YouTubeVideo" && item.videoHash)
           .map((item) => `https://www.youtube.com/embed/${item.videoHash}`);
 
-        // Update state with all game data
         const updatedGameData = {
           ...gameData,
           [id]: {
@@ -179,7 +162,6 @@ export default function Game() {
             maxPlayers: gameDetails.maxPlayers || "N/A",
             genre: gameDetails.genre || "Unknown",
             creator: gameDetails.creator?.name || "Unknown Creator",
-            icon: iconItem?.imageUrl || "https://placehold.co/512",
             banner: bannerItem?.imageUrl || "https://placehold.co/1320x440",
             thumbnails,
             videos,
@@ -190,7 +172,6 @@ export default function Game() {
         localStorage.setItem("gameData", JSON.stringify(updatedGameData));
         setLoading(false);
       } catch (err) {
-        // console.error("Failed to fetch game data:", err);
         setError(err.message);
         toast.error("Failed to update game info.", err);
         setLoading(false);
@@ -220,7 +201,7 @@ export default function Game() {
             {gameData[id]?.title}
           </motion.h2>
           <motion.img
-            key={gameData[id]?.banner}
+            key={`gameData[id]?.banner-front`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -230,7 +211,7 @@ export default function Game() {
             loading="lazy"
           />
           <motion.img
-            key={gameData[id]?.banner}
+            key={`gameData[id]?.banner-back`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -388,6 +369,7 @@ export default function Game() {
                 src={src}
                 alt={`Thumbnail ${i + 1}`}
                 className="w-full rounded-2xl object-cover select-none"
+                loading="lazy"
               />
             ))}
           </div>
