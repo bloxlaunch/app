@@ -61,7 +61,7 @@ Download the [latest release of Bloxlaunch](https://github.com/bloxlaunch/app/re
 
 It's not unlikely that Windows Smartscreen will show a popup when you run Bloxlaunch for the first time. This happens because it's an unknown program, not because it's actually detected as being malicious. To dismiss it, just click on "More info" and then "Run anyway".
 
-# Credits
+## Credits
 
 Parts of this README were inspired by [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap).
 
