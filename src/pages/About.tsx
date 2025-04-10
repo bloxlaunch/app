@@ -1,5 +1,7 @@
 import "./page.css";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { getVersion } from "@tauri-apps/api/app";
 
 import { File } from "lucide-react";
 import {
@@ -14,6 +16,12 @@ import { IoImage } from "react-icons/io5";
 import { PiWindowsLogo } from "react-icons/pi";
 
 export default function About() {
+  const [version, setVersion] = useState("");
+
+  useEffect(() => {
+    getVersion().then(setVersion);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -29,7 +37,7 @@ export default function About() {
           src="/Bloxlaunch-Logo.svg"
           alt="Bloxlaunch Logo"
         />
-        <h1 className="px-2 text-4xl font-medium">Version 0.2.0</h1>
+        <h1 className="px-2 text-4xl font-medium">Version {version}</h1>
         <p>Play your favourite Roblox games instantly</p>
       </div>
     </motion.div>
