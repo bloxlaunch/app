@@ -12,7 +12,7 @@ fn main() {
         .run(tauri::generate_context!())
         .expect("error while running Tauri application");
 
-    bloxlaunch_app_lib::run();
+    bloxlaunch_lib::run();
 }
 
 // Struct for the proxy response
