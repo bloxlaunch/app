@@ -114,7 +114,7 @@ export default function Titlebar() {
           onClick={installUpdate}
           className="m-auto flex h-8 cursor-pointer content-center items-center gap-2 rounded-lg border border-transparent bg-[#ffb900] px-4 py-3 align-middle text-base font-medium text-black shadow transition-colors duration-150 focus:outline-none"
         >
-          <GrInstallOption /> Update to v{updateInfo.version}
+          <GrInstallOption /> Update Available
         </button>
       )}
 

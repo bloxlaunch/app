@@ -8,16 +8,9 @@
 
 <div align="center">
 
-[![GitHub Workflow Status][shield-repo-workflow]][repo-actions]
 [![Downloads][shield-repo-releases]][repo-releases]
 [![Version][shield-repo-latest]][repo-latest]
 [![Discord][shield-discord-server]][discord-invite]
-
-[![Tauri](https://img.shields.io/badge/Tauri-ff8f00?logo=tauri&logoColor=fff)](#)
-[![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)
-[![React Router](https://img.shields.io/badge/React_Router-CA4245?logo=react-router&logoColor=white)](#)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=fff)](#)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)](#)
 
 </div>
 
@@ -33,12 +26,11 @@ Bloxlaunch is only supported on devices running Windows 10/11.
 - Search any Roblox game without leaving the app
 - Ability to add and join private servers
 - View real-time game statistics and info.
-
 ## Frequently Asked Questions
 
-**Q: Why is the source code private?**
+**Q: Is this malware?**
 
-**A:** To protect the integrity and originality of the project, the source code is kept private. This helps prevent unauthorised copying and ensures the app remains a unique and secure experience for everyone.
+**A:** No. The source code here is viewable to all, and it'd be impossible for me to slip anything malicious into the downloads without anyone noticing. Just be sure you're downloading it from an official source. The only two official sources are this GitHub repository and [bloxlaunch.com](https://bloxlaunch.com).
 
 **Q: Can I use this with Bloxstrap?**
 
@@ -46,15 +38,11 @@ Bloxlaunch is only supported on devices running Windows 10/11.
 
 **Q: Do I have to login?**
 
-**A:** No. You only have to be logged on the Roblox website in your default web browser.
+**A:** No. You only have to be logged on the Roblox website in your default web browser, or sometimes on the official Roblox app.
 
 **Q: Can using this get me banned?**
 
 **A:** No. It works the exact same way as launching a game from the Roblox website.
-
-**Q: Who works on this project?**
-
-**A:** Bloxlaunch is only developed and maintained by **[RobTosPro](https://www.youtube.com/channel/UCD0LTuTjV-WaudcRiyo9Xvw/featured)** (me :D)
 
 ## Installing
 Download the [latest release of Bloxlaunch](https://github.com/bloxlaunch/app/releases/latest), run it, and install. That's about it!
@@ -65,7 +53,7 @@ It's not unlikely that Windows Smartscreen will show a popup when you run Bloxla
 
 Parts of this README were inspired by [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap).
 
-[shield-repo-workflow]: https://img.shields.io/github/actions/workflow/status/bloxlaunch/app/ci-release.yml?branch=master&label=builds
+[shield-repo-workflow]: https://img.shields.io/github/actions/workflow/status/bloxlaunch/app/windows-release.yml?branch=main&label=builds
 [shield-repo-releases]: https://img.shields.io/github/downloads/bloxlaunch/app/latest/total?color=981bfe
 [shield-repo-latest]:   https://img.shields.io/github/v/release/bloxlaunch/app?color=7a39fb
 
