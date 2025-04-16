@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Bloxlaunch",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "identifier": "com.bloxlaunch",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -15,7 +15,9 @@
         "title": "Bloxlaunch",
         "width": 1240,
         "height": 790,
-        "decorations": false
+        "decorations": false,
+        "transparent": false,
+        "center": true
       }
     ],
     "security": {
@@ -45,7 +47,7 @@
         "https://github.com/bloxlaunch/app/releases/latest/download/latest.json"
       ],
       "windows": {
-        "installMode": "passive"
+        "installMode": "quiet"
       }
     }
   }

@@ -19,10 +19,12 @@
 
   body {
     margin: 0;
+    background: transparent
   }
 
   html {
     scroll-behavior: smooth;
+    background: transparent
   }
 
   :root {
@@ -32,7 +34,7 @@
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #1A1A1F;
+    /*background-color: #1A1A1F;*/
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;

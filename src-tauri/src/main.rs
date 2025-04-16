@@ -3,17 +3,33 @@
 
 use reqwest;
 use serde::{Deserialize, Serialize};
-use tauri::command;
+use tauri::{command, Manager, Window};
+
+#[cfg(target_os = "windows")]
+use window_vibrancy::apply_mica;
 
 fn main() {
     tauri::Builder::default()
+        .setup(|app| {
+            let app_handle = app.handle();
+            let window = app_handle.get_webview_window("main").unwrap();
+
+            #[cfg(target_os = "windows")]
+            {
+                apply_mica(&window, None)
+                    .expect("Failed to apply blur on Windows");
+            }
+
+            Ok(())
+        })
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![proxy_request]) // ✅ Register proxy_request
+        .invoke_handler(tauri::generate_handler![proxy_request])
         .run(tauri::generate_context!())
         .expect("error while running Tauri application");
 
     bloxlaunch_lib::run();
 }
+
 
 // Struct for the proxy response
 #[derive(Serialize, Deserialize)]
