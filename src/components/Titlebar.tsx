@@ -1,20 +1,44 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-
 import { getVersion, getName } from "@tauri-apps/api/app";
-
+import { check } from "@tauri-apps/plugin-updater";
+import { relaunch } from "@tauri-apps/plugin-process";
 import { GrInstallOption } from "react-icons/gr";
+import type { Update } from "@tauri-apps/plugin-updater";
 
 const isDev = import.meta.env.DEV;
 
 export default function Titlebar() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [version, setVersion] = useState("");
+  const [updateInfo, setUpdateInfo] = useState<Update | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
+  // Version + updater
   useEffect(() => {
     getVersion().then(setVersion);
+
+    (async () => {
+      try {
+        const update = await check();
+
+        if (update && !isDev) {
+          setUpdateInfo(update);
+          console.log(`🔔 Update available: ${update.version}`);
+        } else {
+          console.log("✅ No update available");
+        }
+      } catch (err) {
+        console.error("❌ Failed to check for updates", err);
+      }
+    })();
+  }, []);
+
+  // Titlebar button events
+  useEffect(() => {
     const appWindow = getCurrentWindow();
 
     const minimizeBtn = document.getElementById("titlebar-minimize");
@@ -36,12 +60,36 @@ export default function Titlebar() {
     };
   }, []);
 
-  const navigate = useNavigate();
+  async function installUpdate() {
+    if (!updateInfo) return;
 
-  async function showAppInfo() {
-    const version = await getVersion();
-    const name = await getName();
-    console.log(`App: ${name}, Version: ${version}`);
+    try {
+      setDownloading(true);
+      let downloaded = 0;
+      let contentLength = 0;
+
+      await updateInfo.downloadAndInstall((event) => {
+        switch (event.event) {
+          case "Started":
+            contentLength = event.data.contentLength ?? 0;
+            console.log(`⬇️ Started downloading ${contentLength} bytes`);
+            break;
+          case "Progress":
+            downloaded += event.data.chunkLength;
+            console.log(`⬇️ Downloaded ${downloaded} of ${contentLength}`);
+            break;
+          case "Finished":
+            console.log("✅ Download finished");
+            break;
+        }
+      });
+
+      console.log("✅ Update installed, restarting...");
+      await relaunch();
+    } catch (e) {
+      console.error("❌ Failed to download update", e);
+      setDownloading(false);
+    }
   }
 
   return (
@@ -53,23 +101,28 @@ export default function Titlebar() {
         className="appName flex flex-row items-center gap-[7px] pl-[15px] opacity-80 [filter:saturate(0)_brightness(100%)] hover:cursor-pointer hover:opacity-100 hover:[filter:saturate(0)_brightness(100%)]"
         onClick={() => navigate("/about")}
       >
-        <img className={"h-[50%]"} src="/whiteLogo.svg" alt="" />
+        <img className="h-[50%]" src="/whiteLogo.svg" alt="" />
         {isDev ? (
-          <span className={"appNameText text-white"}>
-            Bloxlaunch v{version}
-          </span>
+          <span className="appNameText text-white">Bloxlaunch v{version}</span>
         ) : (
-          <span className={"appNameText text-white"}>Bloxlaunch</span>
+          <span className="appNameText text-white">Bloxlaunch</span>
         )}
       </div>
-      <button className="m-auto flex h-8 cursor-pointer content-center items-center gap-2 rounded-lg border border-transparent bg-[#ffb900] px-4 py-3 align-middle text-base font-medium text-black shadow transition-colors duration-150 focus:outline-none">
-        <GrInstallOption /> Update Available
-      </button>
 
-      {/*<div className={"flex h-full items-center gap-2"}>*/}
-      {/*  <img className={"h-6"} src="/currently-playing.svg" alt="" />*/}
-      {/*  <span>Evade</span>*/}
-      {/*</div>*/}
+      {updateInfo && !downloading && (
+        <button
+          onClick={installUpdate}
+          className="m-auto flex h-8 cursor-pointer content-center items-center gap-2 rounded-lg border border-transparent bg-[#ffb900] px-4 py-3 align-middle text-base font-medium text-black shadow transition-colors duration-150 focus:outline-none"
+        >
+          <GrInstallOption /> Update to v{updateInfo.version}
+        </button>
+      )}
+
+      {downloading && (
+        <button className="m-auto flex h-8 items-center justify-center rounded-lg bg-gray-300 px-4 text-sm font-medium text-gray-700 shadow">
+          Downloading...
+        </button>
+      )}
 
       <div className="titlebar-buttons">
         <div className="titlebar-button" id="titlebar-minimize">
