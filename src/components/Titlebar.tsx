@@ -1,15 +1,20 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 
 import { getVersion, getName } from "@tauri-apps/api/app";
+
+import { GrInstallOption } from "react-icons/gr";
 
 const isDev = import.meta.env.DEV;
 
 export default function Titlebar() {
   const location = useLocation();
 
+  const [version, setVersion] = useState("");
+
   useEffect(() => {
+    getVersion().then(setVersion);
     const appWindow = getCurrentWindow();
 
     const minimizeBtn = document.getElementById("titlebar-minimize");
@@ -50,11 +55,16 @@ export default function Titlebar() {
       >
         <img className={"h-[50%]"} src="/whiteLogo.svg" alt="" />
         {isDev ? (
-          <span className={"appNameText text-white"}>Bloxlaunch</span>
+          <span className={"appNameText text-white"}>
+            Bloxlaunch v{version}
+          </span>
         ) : (
           <span className={"appNameText text-white"}>Bloxlaunch</span>
         )}
       </div>
+      <button className="m-auto flex h-8 cursor-pointer content-center items-center gap-2 rounded-lg border border-transparent bg-[#ffb900] px-4 py-3 align-middle text-base font-medium text-black shadow transition-colors duration-150 focus:outline-none">
+        <GrInstallOption /> Update Available
+      </button>
 
       {/*<div className={"flex h-full items-center gap-2"}>*/}
       {/*  <img className={"h-6"} src="/currently-playing.svg" alt="" />*/}
