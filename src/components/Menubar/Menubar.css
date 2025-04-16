@@ -1,0 +1,35 @@
+.menuBar {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(60, 60, 73, 0.2); /* Slight transparency */
+    width: 50px;
+    min-width: 80px;
+    max-width: 600px;
+    height: calc(100vh - 20px);
+    overflow: hidden;
+    position: relative;
+    overflow-x: auto;
+    border-radius: 8px;
+    margin: 10px 0px 10px 10px;
+    z-index: 999;
+    padding: 10px;
+}
+
+.menuButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(255, 255, 255, 0);
+    border: 0;
+    height: auto;
+    /*padding-top: 10px;*/
+    padding-bottom: 20px;
+    cursor: pointer;
+}
+
+
+.menuButton span {
+    font-size: 14px;
+    font-family: Montserrat;
+}

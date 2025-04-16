@@ -1,0 +1,15 @@
+.page {
+    display: flex;
+    margin: .5rem;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.page h1 {
+    font-size: 48px;
+    user-select: none;
+}
+
+.page .logo {
+    width: 700px;
+}
