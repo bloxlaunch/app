@@ -230,7 +230,7 @@ export default function Game({ scrollContainer }) {
         </div>
       </div>
 
-      <div className="relative z-10 mt-[-20px] flex h-auto flex-col border-t border-white/10 bg-black/35 pb-8 backdrop-blur-xl">
+      <div className="relative z-10 mt-[-20px] flex h-screen flex-col border-t border-white/10 bg-black/35 pb-10 backdrop-blur-xl">
         <div className="bg-g z-10 flex h-21 w-full bg-black/0 px-6 py-4">
           <div className={"flex flex-row gap-1"}>
             {/* Play Button */}
@@ -360,7 +360,7 @@ export default function Game({ scrollContainer }) {
           >
             Thumbnails
           </h2>
-          <div className="mt-4 grid grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+          <div className="mt-4 mb-8 grid grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {gameData[id]?.videos?.map((video, i) => (
               <div
                 key={i}
