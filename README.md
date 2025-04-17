@@ -8,6 +8,7 @@
 
 <div align="center">
 
+[![Total Downloads](https://img.shields.io/github/downloads/bloxlaunch/app/total?color=981bfe)](https://github.com/bloxlaunch/app/releases)
 [![Downloads][shield-repo-releases]][repo-releases]
 [![Version][shield-repo-latest]][repo-latest]
 [![Discord][shield-discord-server]][discord-invite]
