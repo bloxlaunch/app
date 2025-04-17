@@ -193,10 +193,10 @@ export default function Game({ scrollContainer }) {
 
   const renderGameUI = (message = null) => (
     <motion.div
-      key={id} // Ensure Framer Motion re-renders on ID change
-      initial={{ opacity: 0, y: 30 }} // Slide-in animation
+      key={id}
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -30 }} // Slide-out animation
+      exit={{ opacity: 0, y: -30 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="gameSection"
       ref={scrollRef}
@@ -257,7 +257,12 @@ export default function Game({ scrollContainer }) {
               />
             </button>
             {privateTab && (
-              <div className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-lg border border-white/10 bg-black/100 p-1">
+              <motion.div
+                className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-lg border border-white/10 bg-black/100 p-1"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
                 <div className="flex flex-wrap gap-1">
                   {currentGameServers.map((server, i) => (
                     <button
@@ -290,7 +295,7 @@ export default function Game({ scrollContainer }) {
                   />
                   <p>Add a Private Server</p>
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
           <div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>
@@ -330,11 +335,9 @@ export default function Game({ scrollContainer }) {
           {/*<div className={"ml-5 h-full w-[1px] rounded-3xl bg-white/10"}></div>*/}
         </div>
         <div className={"p-6"}>
-          <div className={"h-auto w-full border-white/10 bg-white/0 p-2"}>
+          <div className={"h-auto w-full border-white/10 bg-white/0"}>
             <h2
-              className={
-                "pt-2 pb-4 text-4xl font-semibold text-white select-none"
-              }
+              className={"pb-4 text-4xl font-semibold text-white select-none"}
             >
               Description
             </h2>

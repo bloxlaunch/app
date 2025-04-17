@@ -1,15 +1,15 @@
 .bannerContainer {
     width: 100%;
     display: flex;
-    justify-content: center; /* Centers the entire banner */
+    justify-content: center;
     align-items: center;
 }
 
 .bannerWrapper {
-    position: relative; /* Makes gameBannerBack position relative to this */
+    position: relative;
     display: flex;
-    flex-direction: column; /* Ensures vertical stacking */
-    align-items: center; /* Centers horizontally */
+    flex-direction: column;
+    align-items: center;
 }
 
 .gameBanner {
@@ -19,66 +19,65 @@
     background: url("../../assets/bannerPlaceholder.svg") center/cover no-repeat;
     aspect-ratio: 3;
     object-fit: cover;
-    position: relative; /* Ensures it's above gameBannerBack */
+    position: relative;
     z-index: 1;
-    overflow: hidden; /* ✅ Hides blur overflow */
-    /* Default state: Hidden gradient */
+    overflow: hidden;
     mask-image: linear-gradient(to right, transparent -50%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, transparent 150%);
-    transition: opacity 0.5s ease-in-out; /* ✅ Smooth transition */
+    transition: opacity 0.5s ease-in-out;
 
 
 }
 
 .gameBannerBack {
-    position: absolute; /* Places it exactly under gameBanner */
+    position: absolute;
     width: 100%;
     display: block;
     border-radius: 8px;
     background: url("../../assets/bannerPlaceholder.svg") center/cover no-repeat;
     aspect-ratio: 3;
     object-fit: stretch;
-    z-index: 0; /* Sends it to the background */
+    z-index: 0;
     filter: blur(40px) brightness(35%);
-    top: 0; /* Ensures alignment */
+    top: 0;
     left: 0;
-    overflow: hidden; /* ✅ Hides blur overflow */
+    overflow: hidden;
 }
 
 .bannerIcon {
     position: relative;
     width: 100%;
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Align items in center */
+    justify-content: center;
+    align-items: center;
 }
 
 /*.gameIcon {*/
 /*    position: absolute;*/
-/*    bottom: -40px; !* Moves the icon slightly lower *!*/
+/*    bottom: -40px;
 /*    left: 50%;*/
-/*    transform: translateX(-50%); !* Centers horizontally *!*/
+/*    transform: translateX(-50%);
 /*    aspect-ratio: 1;*/
-/*    width: 25%; !* Adjust size as needed *!*/
+/*    width: 25%;
 /*    height: auto;*/
 /*    border-radius: 25px;*/
 /*    z-index: 10;*/
-/*    padding: 8px; !* Optional: Small padding to avoid blending *!*/
-/*    box-shadow: 0px 4px 10px rgba(0, 0, 0, .4); !* Optional: Shadow for better visibility *!*/
+/*    padding: 8px;
+/*    box-shadow: 0px 4px 10px rgba(0, 0, 0, .4);
 /*    backdrop-filter: blur(10px);*/
 /*}*/
 
 .gameIcon {
     position: absolute;
-    bottom: -40px; /* Moves the icon slightly lower */
+    bottom: -40px;
     left: 50%;
-    transform: translateX(-50%); /* Centers horizontally */
+    transform: translateX(-50%);
     aspect-ratio: 1;
-    width: 25%; /* Adjust size as needed */
+    width: 25%;
     height: auto;
     border-radius: 25px;
     z-index: 10;
-    padding: 8px; /* Optional: Small padding to avoid blending */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, .4); /* Optional: Shadow for better visibility */
+    padding: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, .4);
     backdrop-filter: blur(10px);
     display: none;
 }
@@ -99,7 +98,7 @@
 .bottomGame {
     display: flex;
     flex-direction: column;
-    background-color: rgba(60, 60, 73, 0); /* Slight transparency */
+    background-color: rgba(60, 60, 73, 0);
     border-radius: 8px;
     height: 1000px;
     z-index: 50;
@@ -118,7 +117,7 @@
     .gameBanner {
         height: 485px;
         width: 1620px;
-        transition: opacity 0.5s ease-in-out; /* ✅ Smooth transition */
+        transition: opacity 0.5s ease-in-out;
         mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, transparent 100%);
     }
 
