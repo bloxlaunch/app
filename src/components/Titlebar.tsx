@@ -25,7 +25,7 @@ export default function Titlebar() {
       try {
         const update = await check();
 
-        if (update && !isDev) {
+        if (update) {
           setUpdateInfo(update);
           console.log(`🔔 Update available: ${update.version}`);
         } else {
