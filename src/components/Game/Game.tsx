@@ -1,12 +1,14 @@
 import "./Game.css";
 import { useParams } from "react-router-dom";
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { formatNumber } from "../Utils.tsx";
 import { toast } from "sonner";
 import AnimatedNumber from "../AnimatedNumber.tsx";
+import ParallaxImage from "../ParallaxImage.tsx";
 
-export default function Game() {
+export default function Game({ scrollContainer }) {
+  const scrollRef = useRef(null);
   const { id } = useParams();
   const [gameData, setGameData] = useState(
     () => JSON.parse(localStorage.getItem("gameData")) || {},
@@ -36,6 +38,14 @@ export default function Game() {
   });
 
   const currentGameServers = privateServers[id] || [];
+
+  const [offsetY, setOffsetY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setOffsetY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleClick = () =>
@@ -189,6 +199,7 @@ export default function Game() {
       exit={{ opacity: 0, y: -30 }} // Slide-out animation
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="gameSection"
+      ref={scrollRef}
     >
       <div className="bannerIcon">
         <div className="bannerContainer rounded-xl">
@@ -200,25 +211,21 @@ export default function Game() {
           >
             {gameData[id]?.title}
           </motion.h2>
-          <motion.img
-            key={`gameData[id]?.banner-front`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+          <ParallaxImage
+            key="banner-front"
             src={gameData[id]?.banner || "https://placehold.co/1320x440"}
             alt="Game Banner"
             className="gameBanner select-none"
-            loading="lazy"
+            speed={0.36}
+            scrollContainer={scrollContainer}
           />
-          <motion.img
-            key={`gameData[id]?.banner-back`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+          <ParallaxImage
+            key="banner-back"
             src={gameData[id]?.banner || "https://placehold.co/1320x440"}
             alt="Game Banner"
             className="gameBannerBack select-none"
-            loading="lazy"
+            speed={0.36}
+            scrollContainer={scrollContainer}
           />
         </div>
       </div>

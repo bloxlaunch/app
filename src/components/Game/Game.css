@@ -3,7 +3,6 @@
     display: flex;
     justify-content: center; /* Centers the entire banner */
     align-items: center;
-    position: relative; /* Allows absolute positioning of gameBannerBack */
 }
 
 .bannerWrapper {

@@ -7,7 +7,7 @@ import Home from "./pages/Home.tsx";
 import About from "./pages/About.tsx";
 import Profile from "./pages/Profile.tsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 // import { Toaster } from "react-hot-toast";
 import { Toaster, toast } from "sonner";
@@ -18,6 +18,7 @@ import Menubar from "./components/Menubar/Menubar.tsx";
 
 export default function App() {
   const location = useLocation();
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const appWindow = getCurrentWindow();
@@ -65,7 +66,10 @@ export default function App() {
         <Sidebar />
 
         {/* Main content */}
-        <div className="content no-scrollbar rounded-xl rounded-tr-none border-t border-l border-white/10">
+        <div
+          ref={scrollRef}
+          className="content no-scrollbar rounded-xl rounded-tr-none border-t border-l border-white/10"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -78,7 +82,10 @@ export default function App() {
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/game/:id" element={<Game />} />
+                <Route
+                  path="/game/:id"
+                  element={<Game scrollContainer={scrollRef} />}
+                />
                 <Route path="/profile" element={<Profile />} />
               </Routes>
             </motion.div>
