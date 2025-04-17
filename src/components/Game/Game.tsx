@@ -250,10 +250,12 @@ export default function Game({ scrollContainer }) {
                 "flex w-12 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle font-bold text-white"
               }
             >
-              <img
+              <motion.img
                 className={"h-3 select-none"}
                 src="/down-small-on.svg"
                 alt=""
+                animate={{ rotate: privateTab ? 0 : 90 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
               />
             </button>
             {privateTab && (
