@@ -253,6 +253,7 @@ export default function Game({ scrollContainer }) {
 
             {/* More Button*/}
             <button
+              onMouseDown={(e) => e.stopPropagation()}
               onClick={privateTabToggle}
               className={
                 "flex w-12 cursor-pointer content-center items-center justify-center rounded-md bg-blue-600 py-2 align-middle font-bold text-white"
