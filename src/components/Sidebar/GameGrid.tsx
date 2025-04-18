@@ -185,7 +185,7 @@ export default function GameGrid({
           onContextMenu={(e) => e.preventDefault()} // prevent on right click here too
         >
           <button className="block w-full cursor-pointer rounded-md px-4 py-2 text-left hover:bg-white/10 hover:text-white">
-            Remove Game
+            Delete
           </button>
         </div>
       )}

@@ -6,6 +6,7 @@ import { formatNumber } from "../Utils.tsx";
 import { toast } from "sonner";
 import AnimatedNumber from "../AnimatedNumber.tsx";
 import ParallaxImage from "../ParallaxImage.tsx";
+import useModalDismiss from "../../util/useModalDismiss.tsx";
 
 export default function Game({ scrollContainer }) {
   const scrollRef = useRef(null);
@@ -27,7 +28,6 @@ export default function Game({ scrollContainer }) {
     const saved = localStorage.getItem("privateServers");
     return saved ? JSON.parse(saved) : {};
   });
-  const [showModal, setShowModal] = useState(false);
   const [linkInput, setLinkInput] = useState("");
   const [labelInput, setLabelInput] = useState("");
   const [contextMenu, setContextMenu] = useState({
@@ -36,6 +36,14 @@ export default function Game({ scrollContainer }) {
     y: 0,
     index: null,
   });
+
+  const [showModal, setShowModal] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  useModalDismiss(modalRef, showModal, () => setShowModal(false));
+
+  const [privateTabOpen, setPrivateTabOpen] = useState(false);
+  const privateTabRef = useRef<HTMLDivElement>(null);
+  useModalDismiss(privateTabRef, privateTab, () => setPrivateTab(false));
 
   const currentGameServers = privateServers[id] || [];
 
@@ -230,7 +238,7 @@ export default function Game({ scrollContainer }) {
         </div>
       </div>
 
-      <div className="relative z-10 mt-[-20px] flex h-screen flex-col border-t border-white/10 bg-black/35 pb-10 backdrop-blur-xl">
+      <div className="relative z-10 mt-[-20px] flex h-auto flex-col border-t border-white/10 bg-black/35 pb-8 backdrop-blur-xl">
         <div className="bg-g z-10 flex h-21 w-full bg-black/0 px-6 py-4">
           <div className={"flex flex-row gap-1"}>
             {/* Play Button */}
@@ -260,6 +268,7 @@ export default function Game({ scrollContainer }) {
             </button>
             {privateTab && (
               <motion.div
+                ref={privateTabRef}
                 className="bg-gray/100 absolute z-50 mt-14 h-auto w-77 rounded-lg border border-white/10 bg-black/100 p-1"
                 initial={{ opacity: 0, y: -5 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -407,41 +416,72 @@ export default function Game({ scrollContainer }) {
 
   return (
     <>
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-          <div className="w-96 rounded-lg bg-white p-6 text-black">
-            <h2 className="mb-4 text-xl font-semibold">Add Private Server</h2>
-            <input
-              type="text"
-              placeholder="Roblox share link"
-              className="mb-3 w-full rounded border px-3 py-2"
-              value={linkInput}
-              onChange={(e) => setLinkInput(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Label"
-              className="mb-4 w-full rounded border px-3 py-2"
-              value={labelInput}
-              onChange={(e) => setLabelInput(e.target.value)}
-            />
-            <div className="flex justify-end gap-2">
-              <button
+      <AnimatePresence>
+        {showModal && (
+          /* overlay */
+          <motion.div
+            className="fixed inset-0 z-[1001] flex items-center justify-center bg-black/30 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {/* modal card */}
+            <motion.div
+              ref={modalRef}
+              className="no-scrollbar mx-5 max-h-[80vh] w-[450px] overflow-y-auto rounded-xl border border-white/10 bg-black/80 p-5 text-white backdrop-blur-2xl"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              {/* close icon */}
+              <img
+                src="https://api.iconify.design/mdi:close.svg"
+                alt="close"
+                className="absolute top-0 right-0 m-2 cursor-pointer rounded p-2 invert select-none hover:bg-white/20"
                 onClick={() => setShowModal(false)}
-                className="rounded bg-gray-300 px-4 py-2"
+              />
+
+              {/* heading */}
+              <h3 className="mt-2 text-3xl font-bold select-none">
+                Add Private Server
+              </h3>
+              <p
+                className={"text-md mb-4 font-medium text-white/80 select-none"}
               >
-                Cancel
-              </button>
-              <button
-                onClick={handleAddPrivateServer}
-                className="rounded bg-blue-600 px-4 py-2 text-white"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+                {gameData[id]?.title}
+              </p>
+
+              {/* inputs */}
+              <input
+                type="text"
+                placeholder="My Private Server"
+                className="mb-3 w-full rounded-lg border border-white/20 bg-black/40 p-2.5 text-white placeholder-white/50 outline-none select-none"
+                value={labelInput}
+                onChange={(e) => setLabelInput(e.target.value)}
+              />
+
+              <input
+                type="text"
+                placeholder="https://www.roblox.com/share?code=2cedcaa60a4f5e439f1e8d584efb71e6&type=Server"
+                className="mb-3 w-full rounded-lg border border-white/20 bg-black/40 p-2.5 text-white placeholder-white/50 outline-none select-none"
+                value={linkInput}
+                onChange={(e) => setLinkInput(e.target.value)}
+              />
+
+              {/* action buttons */}
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={handleAddPrivateServer}
+                  className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                >
+                  Add
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {contextMenu.visible && (
         <div
           className="fixed z-50 rounded-lg border border-white/20 bg-black/80 p-1 text-lg text-white shadow-2xl backdrop-blur-md"

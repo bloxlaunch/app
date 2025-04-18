@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import useModalDismiss from "../../util/useModalDismiss.tsx";
 
 export default function AddGame({ onAddGame, isCollapsed }) {
   const [showModal, setShowModal] = useState(false);
@@ -81,31 +82,8 @@ export default function AddGame({ onAddGame, isCollapsed }) {
     setQuery("");
   };
 
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setShowModal(false);
-      }
-    };
-
-    const handleEsc = (event) => {
-      if (event.key === "Escape") {
-        setShowModal(false);
-      }
-    };
-
-    if (showModal) {
-      document.addEventListener("mousedown", handleOutsideClick);
-      document.addEventListener("keydown", handleEsc);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-      document.removeEventListener("keydown", handleEsc);
-    };
-  }, [showModal]);
+  const modalRef = useRef<HTMLDivElement>(null);
+  useModalDismiss(modalRef, showModal, () => setShowModal(false));
 
   return (
     <>
