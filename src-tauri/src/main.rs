@@ -3,25 +3,15 @@
 
 use reqwest;
 use serde::{Deserialize, Serialize};
-use tauri::{command, Manager, Window};
+use tauri::{command};
 
-#[cfg(target_os = "windows")]
-use window_vibrancy::apply_mica;
+// #[cfg(target_os = "windows")]
+// use window_vibrancy::apply_mica;
 
 fn main() {
     tauri::Builder::default()
-        .setup(|app| {
-            let app_handle = app.handle();
-            let window = app_handle.get_webview_window("main").unwrap();
-
-            #[cfg(target_os = "windows")]
-            {
-                apply_mica(&window, None)
-                    .expect("Failed to apply blur on Windows");
-            }
-
-            Ok(())
-        })
+        // ❷ Keep setup, but do nothing special—just return Ok(())
+        .setup(|_app| Ok(()))
         .plugin(tauri_plugin_updater::Builder::new().build())
         .invoke_handler(tauri::generate_handler![proxy_request])
         .run(tauri::generate_context!())
@@ -30,15 +20,12 @@ fn main() {
     bloxlaunch_lib::run();
 }
 
-
-// Struct for the proxy response
 #[derive(Serialize, Deserialize)]
 struct ProxyResponse {
     status: u16,
     body: String,
 }
 
-// Proxy function that forwards HTTP requests
 #[command]
 async fn proxy_request(
     url: String,
