@@ -181,6 +181,10 @@ export default function GameGrid({
             setGames(updatedGames);
             localStorage.setItem("games", JSON.stringify(updatedGames));
             setContextMenu({ ...contextMenu, visible: false });
+
+            if (updatedGames.length === 0) {
+              navigate("/");
+            }
           }}
           onContextMenu={(e) => e.preventDefault()} // prevent on right click here too
         >

@@ -11,6 +11,7 @@ import useModalDismiss from "../../util/useModalDismiss.tsx";
 export default function Game({ scrollContainer }) {
   const scrollRef = useRef(null);
   const { id } = useParams();
+  const currentGameId = id;
   const [gameData, setGameData] = useState(
     () => JSON.parse(localStorage.getItem("gameData")) || {},
   );
