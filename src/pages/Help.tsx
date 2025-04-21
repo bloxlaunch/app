@@ -30,15 +30,7 @@ export default function About() {
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="page m-5 flex h-[calc(100vh-50px)] flex-col items-center justify-center"
     >
-      <div className="flex flex-col content-center items-center gap-5 p-4 lg:flex-row">
-        <img
-          className="w-[500px]"
-          src="/Bloxlaunch-Logo.svg"
-          alt="Bloxlaunch Logo"
-        />
-        <p className="px-2 text-2xl font-medium">v{version}</p>
-        {/*<p>Play your favourite Roblox games instantly</p>*/}
-      </div>
+      <h1 className={"text-center font-extrabold"}>Bloxlaunch Help</h1>
     </motion.div>
   );
 }
