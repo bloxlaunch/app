@@ -6,6 +6,7 @@ import Game from "./components/Game/Game.tsx";
 import Home from "./pages/Home.tsx";
 import About from "./pages/About.tsx";
 import Profile from "./pages/Profile.tsx";
+import Help from "./pages/Help.tsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -87,6 +88,7 @@ export default function App() {
                   element={<Game scrollContainer={scrollRef} />}
                 />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/help" element={<Help />} />
               </Routes>
             </motion.div>
           </AnimatePresence>

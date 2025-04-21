@@ -127,7 +127,10 @@ export default function Titlebar() {
         </button>
       )}
       <div className={"flex flex-row"}>
-        <div className="titlebar-button cursor-pointer border-r border-white/10">
+        <div
+          className="titlebar-button cursor-pointer border-r border-white/0"
+          onClick={() => navigate("/help")}
+        >
           <FaQuestionCircle size={"25"} />
         </div>
         <div className="titlebar-buttons">
