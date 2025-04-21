@@ -27,7 +27,7 @@ export default function Home() {
           <p>Click "Add a Game" to get started!</p>
         </div>
       ) : (
-        <div className="mt-4 text-green-500">
+        <div className="mt-4 text-center text-gray-400 select-none">
           <p>
             You have {games.length} game{games.length > 1 ? "s" : ""} added.
           </p>

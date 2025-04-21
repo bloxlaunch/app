@@ -4,14 +4,14 @@
 use reqwest;
 use serde::{Deserialize, Serialize};
 use tauri::{command};
-use tauri_plugin_shell::ShellExt;
+// use tauri_plugin_shell::ShellExt;
 
 // #[cfg(target_os = "windows")]
 // use window_vibrancy::apply_mica;
 
 fn main() {
     tauri::Builder::default()
-        // ❷ Keep setup, but do nothing special—just return Ok(())
+        // Keep setup, but do nothing special—just return Ok(())
         .setup(|_app| Ok(()))
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_shell::init())

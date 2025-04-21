@@ -6,6 +6,9 @@ import { check } from "@tauri-apps/plugin-updater";
 import { relaunch } from "@tauri-apps/plugin-process";
 import { GrInstallOption } from "react-icons/gr";
 import type { Update } from "@tauri-apps/plugin-updater";
+import { QuestionMark } from "@phosphor-icons/react";
+import { CiCircleQuestion } from "react-icons/ci";
+import { FaQuestionCircle, FaRegQuestionCircle } from "react-icons/fa";
 
 const isDev = import.meta.env.DEV;
 
@@ -123,22 +126,32 @@ export default function Titlebar() {
           Downloading...
         </button>
       )}
-
-      <div className="titlebar-buttons">
-        <div className="titlebar-button" id="titlebar-minimize">
-          <img
-            src="https://api.iconify.design/mdi:window-minimize.svg"
-            alt="minimize"
-          />
+      <div className={"flex flex-row"}>
+        <div className="titlebar-button cursor-pointer border-r border-white/10">
+          <FaQuestionCircle size={"25"} />
         </div>
-        <div className="titlebar-button" id="titlebar-maximize">
-          <img
-            src="https://api.iconify.design/mdi:window-maximize.svg"
-            alt="maximize"
-          />
-        </div>
-        <div className="titlebar-button" id="titlebar-close">
-          <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
+        <div className="titlebar-buttons">
+          <div
+            className="titlebar-button cursor-pointer"
+            id="titlebar-minimize"
+          >
+            <img
+              src="https://api.iconify.design/mdi:window-minimize.svg"
+              alt="minimize"
+            />
+          </div>
+          <div
+            className="titlebar-button cursor-pointer"
+            id="titlebar-maximize"
+          >
+            <img
+              src="https://api.iconify.design/mdi:window-maximize.svg"
+              alt="maximize"
+            />
+          </div>
+          <div className="titlebar-button cursor-pointer" id="titlebar-close">
+            <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
+          </div>
         </div>
       </div>
     </div>
