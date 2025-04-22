@@ -4,6 +4,7 @@
 use reqwest;
 use serde::{Deserialize, Serialize};
 use tauri::{command};
+use tauri_plugin_drpc::init as drpc_init;
 // use tauri_plugin_shell::ShellExt;
 
 // #[cfg(target_os = "windows")]
@@ -13,6 +14,7 @@ fn main() {
     tauri::Builder::default()
         // Keep setup, but do nothing special—just return Ok(())
         .setup(|_app| Ok(()))
+        .plugin(drpc_init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![proxy_request])

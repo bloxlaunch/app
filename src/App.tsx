@@ -17,9 +17,36 @@ import { useNavigate } from "react-router-dom";
 import Titlebar from "./components/Titlebar.tsx";
 import Menubar from "./components/Menubar/Menubar.tsx";
 
+import { setActivity, clearActivity, destroy, start } from "tauri-plugin-drpc";
+import { Activity, Assets, Timestamps } from "tauri-plugin-drpc/activity";
+
 export default function App() {
   const location = useLocation();
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      // start (or restart) the RPC thread
+      await start("1357957770049224774");
+
+      // build your Assets object
+      const assets = new Assets().setLargeImage("bloxlaunchicon");
+      // .setLargeText("Large image hovered!")
+      // .setSmallImage("bloxlaunchicon")
+      // .setSmallText("Small image hovered!");
+
+      // build a single Activity instance
+      const activity = new Activity()
+        .setAssets(assets)
+        // .setState("example string")
+        // .setDetails("hello")
+        .setTimestamps(new Timestamps(Date.now()));
+
+      // push it to Discord
+      await setActivity(activity);
+    })();
+  }, []);
 
   useEffect(() => {
     const appWindow = getCurrentWindow();
@@ -42,8 +69,6 @@ export default function App() {
       closeBtn?.removeEventListener("click", handleClose);
     };
   }, []);
-
-  const navigate = useNavigate();
 
   return (
     <div className="app">

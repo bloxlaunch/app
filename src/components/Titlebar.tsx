@@ -106,7 +106,7 @@ export default function Titlebar() {
       >
         <img className="h-[50%]" src="/whiteLogo.svg" alt="" />
         {isDev ? (
-          <span className="appNameText text-white">Bloxlaunch v{version}</span>
+          <span className="appNameText text-white">Bloxlaunch</span>
         ) : (
           <span className="appNameText text-white">Bloxlaunch v{version}</span>
         )}

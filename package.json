@@ -30,7 +30,8 @@
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.3.0",
     "sonner": "^2.0.3",
-    "tailwindcss": "^4.1.4"
+    "tailwindcss": "^4.1.4",
+    "tauri-plugin-drpc": "^1.0.3"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
