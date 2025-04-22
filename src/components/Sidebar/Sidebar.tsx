@@ -30,11 +30,20 @@ export default function Sidebar() {
     if (!sidebar) return;
 
     const sidebarRect = sidebar.getBoundingClientRect();
-
     const offsetX = e.clientX - sidebarRect.right;
+    const MIN_WIDTH = 115;
 
     const onMouseMove = (e: MouseEvent) => {
-      const newWidth = e.clientX - sidebarRect.left - offsetX;
+      let newWidth = e.clientX - sidebarRect.left - offsetX;
+
+      if (newWidth < 200) {
+        setIsCollapsed(true);
+      } else {
+        setIsCollapsed(false);
+      }
+
+      if (newWidth < MIN_WIDTH) newWidth = MIN_WIDTH;
+
       sidebar.style.width = `${newWidth}px`;
     };
 
@@ -46,22 +55,6 @@ export default function Sidebar() {
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
   };
-
-  // ✅ Detect when sidebar is collapsed
-  useEffect(() => {
-    const sidebar = sidebarRef.current;
-    if (!sidebar) return;
-
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const width = entry.contentRect.width;
-        setIsCollapsed(width <= 50);
-      }
-    });
-
-    observer.observe(sidebar);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div
