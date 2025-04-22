@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import AnimatedNumber from "../AnimatedNumber.tsx";
 import ParallaxImage from "../ParallaxImage.tsx";
 import useModalDismiss from "../../util/useModalDismiss.tsx";
+import "../../pages/page.css";
 
 export default function Game({ scrollContainer }) {
   const scrollRef = useRef(null);
@@ -207,7 +208,7 @@ export default function Game({ scrollContainer }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -30 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="gameSection"
+      className=""
       ref={scrollRef}
     >
       <div className="bannerIcon">
@@ -515,7 +516,7 @@ export default function Game({ scrollContainer }) {
           // 🔄 Show loading screen if banner doesn't exist
           <motion.div
             key="loading"
-            className="flex min-h-screen items-center justify-center rounded-xl bg-black/40 text-white"
+            className="m-5 flex h-full flex-col items-center justify-center rounded-xl bg-black/40 text-white"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -535,7 +536,6 @@ export default function Game({ scrollContainer }) {
           renderGameUI(error ? "Error: Please try again later." : null)
         )}
       </AnimatePresence>
-      );
     </>
   );
 }

@@ -103,7 +103,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="pageWrapper"
+              className=""
             >
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />

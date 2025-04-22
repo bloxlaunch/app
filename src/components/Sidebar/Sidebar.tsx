@@ -27,7 +27,7 @@ export default function Sidebar() {
     e.preventDefault();
 
     const sidebar = sidebarRef.current;
-    if (!sidebar) return; // 💥 Exit if the ref hasn't attached yet
+    if (!sidebar) return;
 
     const sidebarRect = sidebar.getBoundingClientRect();
 
@@ -66,7 +66,7 @@ export default function Sidebar() {
   return (
     <div
       ref={sidebarRef}
-      className="relative z-[999] flex w-96 max-w-[600px] min-w-[80px] flex-col overflow-hidden overflow-x-auto bg-black/15 select-none"
+      className="relative z-[999] container flex h-full w-96 max-w-[600px] min-w-[80px] flex-none flex-col bg-black/15 select-none"
     >
       <div
         onMouseDown={startResizing}
