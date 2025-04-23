@@ -108,7 +108,7 @@ export default function Titlebar() {
         {isDev ? (
           <span className="appNameText text-white">Bloxlaunch</span>
         ) : (
-          <span className="appNameText text-white">Bloxlaunch v{version}</span>
+          <span className="appNameText text-white">Bloxlaunch</span>
         )}
       </div>
 
